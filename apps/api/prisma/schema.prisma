@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Creation {
+  id          String   @id @default(cuid())
+  title       String
+  type        String   // lego, diy, dessin, fanart...
+  imageUrl    String?
+  description String?
+  author      String?  // pseudo
+  tags        String?  // "lego,nostalgie,mecha"
+  createdAt   DateTime @default(now())
+}
+
+model Vinyl {
+  id        String   @id @default(cuid())
+  title     String   // album
+  artist    String
+  coverUrl  String?
+  year      Int?
+  tags      String?
+  createdAt DateTime @default(now())
+}
+
+model ShowEpisode {
+  id          String   @id @default(cuid())
+  show        String   // simpsons, southpark...
+  title       String
+  season      Int?
+  episode     Int?
+  communityRank Int?   // classement (optionnel)
+  linkUrl     String?  // lien externe (optionnel)
+  note        String?  // pourquoi il est marquant
+  createdAt   DateTime @default(now())
+}
+
+model AestheticPost {
+  id        String   @id @default(cuid())
+  title     String?
+  imageUrl  String
+  vibe      String?  // sunset LA, cozy room, city lights...
+  tags      String?
+  createdAt DateTime @default(now())
+}
