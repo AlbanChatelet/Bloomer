@@ -1,6 +1,8 @@
 <template>
+  
   <div class="h-screen w-screen overflow-hidden">
     <div class="flex h-full w-full">
+      <AppHeader />
       <!-- DOOMER -->
       <NuxtLink
         to="/doomer"

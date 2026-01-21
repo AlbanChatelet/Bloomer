@@ -515,7 +515,7 @@ async function main() {
         season: 10,
         episode: 8,
         communityRank: 2,
-        linkUrl: "https://southpark.fandom.com/fr/wiki/Make_Love,_Not_Warcraft",
+        linkUrl: "https://www.imdb.com/fr/title/tt0850173/",
       },
       {
         show: "South Park",
