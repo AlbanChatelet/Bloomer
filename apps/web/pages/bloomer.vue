@@ -40,6 +40,33 @@ type Creation = {
   tags?: string | null;
 };
 
+type MusicAlbum = {
+  id: string;
+  title: string;
+  artist: string;
+  year?: number;
+  genre: string;
+  region?: string;
+  coverUrl?: string;
+};
+
+const { data: albums, error: albumsError, pending: albumsPending } =
+  await useFetch<MusicAlbum[]>(`${api}/albums`);
+
+type MusicAesthetic = {
+  id: string;
+  title?: string | null;
+  imageUrl: string;
+  sourceUrl: string;
+  vibe?: string | null;
+  tags?: string | null;
+};
+
+const { data: musicAesthetic } = await useFetch<MusicAesthetic[]>(
+  `${api}/music-aesthetic`
+);
+
+
 const { data: vinyls } = await useFetch<Vinyl[]>(`${api}/vinyls`);
 const { data: episodes } = await useFetch<ShowEpisode[]>(`${api}/episodes`);
 const { data: aesthetics } = await useFetch<AestheticPost[]>(`${api}/aesthetics`);
@@ -128,7 +155,72 @@ const { data: creations } = await useFetch<Creation[]>(`${api}/creations`);
           Ajoute des vinyles via Prisma Studio pour remplir cette section.
         </div>
       </div>
+
+      
     </section>
+
+    <section id="albums" class="mx-auto max-w-6xl px-6 py-10">
+  <h2 class="text-2xl font-bold">🎶 Albums cultes</h2>
+
+  <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <div v-if="albumsPending" class="text-zinc-600">Chargement des albums…</div>
+
+<div v-else-if="albumsError" class="text-red-700">
+  Erreur albums : {{ albumsError.message }}
+</div>
+
+<div v-else class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+  <div
+    v-for="album in (albums || [])"
+    :key="album.id"
+    class="rounded-2xl bg-white/70 p-4 ring-1 ring-black/5"
+  >
+    <div class="aspect-square bg-amber-100 mb-3">
+      <img
+        v-if="album.coverUrl"
+        :src="album.coverUrl"
+        class="h-full w-full object-cover"
+      />
+    </div>
+    <p class="text-sm font-bold">{{ album.title }}</p>
+    <p class="text-sm text-zinc-600">{{ album.artist }}</p>
+    <p class="text-xs text-zinc-500">{{ album.year }}</p>
+    <p class="text-xs text-zinc-500">{{ album.genre }}</p>
+  </div>
+
+  <div v-if="(albums || []).length === 0" class="rounded-2xl bg-white/60 p-5 text-zinc-700 ring-1 ring-black/5">
+    Aucun album en base pour l’instant.
+  </div>
+</div>
+
+  </div>
+
+  <section id="music-aesthetic" class="mx-auto max-w-6xl px-6 py-10">
+  <h2 class="text-2xl font-bold">🎶 Aesthetic musique</h2>
+  <p class="mt-2 max-w-2xl text-zinc-700">
+    Murs de vinyles, collections, coins musique… l’objet et l’ambiance avant le son.
+  </p>
+
+  <div class="mt-7 columns-1 gap-4 sm:columns-2 lg:columns-3">
+    <a
+      v-for="m in (musicAesthetic || [])"
+      :key="m.id"
+      :href="m.sourceUrl"
+      target="_blank"
+      class="mb-4 block break-inside-avoid overflow-hidden rounded-2xl bg-white/70 shadow-sm ring-1 ring-black/5 hover:bg-white"
+    >
+      <img :src="m.imageUrl" :alt="m.title || 'Music aesthetic'" class="w-full object-cover" loading="lazy" />
+      <div class="p-4">
+        <p v-if="m.title" class="text-sm font-semibold">{{ m.title }}</p>
+        <p v-if="m.vibe" class="text-sm text-zinc-600">{{ m.vibe }}</p>
+        <p v-if="m.tags" class="mt-2 text-xs text-zinc-500"># {{ m.tags }}</p>
+      </div>
+    </a>
+  </div>
+</section>
+
+</section>
+
 
     <!-- SECTION: EPISODES -->
     <section id="episodes" class="mx-auto max-w-6xl px-6 py-10">

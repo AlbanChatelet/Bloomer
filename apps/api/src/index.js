@@ -45,3 +45,33 @@ app.get("/aesthetics", async (req, res) => {
 
 const port = process.env.PORT || 4000;
 app.listen(port, () => console.log(`API Bloomer sur http://localhost:${port}`));
+
+app.get("/albums", async (req, res) => {
+  const { genre } = req.query;
+
+  const albums = await prisma.musicAlbum.findMany({
+    where: genre ? { genre } : undefined,
+    orderBy: { year: "asc" },
+  });
+
+  res.json(albums);
+});
+
+app.get("/albums", async (req, res) => {
+  const albums = await prisma.musicAlbum.findMany({ orderBy: { year: "asc" } });
+  res.json(albums);
+});
+
+app.get("/music-aesthetic", async (req, res) => {
+  const items = await prisma.musicAesthetic.findMany({
+    orderBy: { createdAt: "desc" },
+  });
+  res.json(items);
+});
+
+app.get("/lego-creations", async (req, res) => {
+  const items = await prisma.legoCreation.findMany({
+    orderBy: { createdAt: "desc" },
+  });
+  res.json(items);
+});

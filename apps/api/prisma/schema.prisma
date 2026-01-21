@@ -18,6 +18,45 @@ model Creation {
   createdAt   DateTime @default(now())
 }
 
+model MusicAesthetic {
+  id          String   @id @default(cuid())
+  title       String?
+  imageUrl    String   // obligatoire
+  sourceUrl   String   // obligatoire (Pinterest, etc.)
+  vibe        String?  // cozy, vintage, wall, decor...
+  tags        String?  // "vinyl,decor,wall"
+  createdAt   DateTime @default(now())
+}
+
+model CultShow {
+  id        String   @id @default(cuid())
+  title     String
+  format    String   // "episodic" | "serialized"
+  type      String?  // "animation" | "live" | "anime"
+  years     String?  // "1989–" etc.
+  pitch     String?  // pourquoi c'est culte
+  tags      String?  // "humour,noir,nostalgie"
+  createdAt DateTime @default(now())
+
+  picks     CultPick[]
+}
+
+model CultPick {
+  id        String   @id @default(cuid())
+  showId    String
+  show      CultShow @relation(fields: [showId], references: [id], onDelete: Cascade)
+
+  pickType  String   // "episode" | "season" | "starting_point" | "moment"
+  title     String
+  season    Int?
+  episode   Int?
+  rank      Int?
+  reason    String?
+  sourceUrl String?
+  createdAt DateTime @default(now())
+}
+
+
 model Vinyl {
   id        String   @id @default(cuid())
   title     String   // album
@@ -27,6 +66,20 @@ model Vinyl {
   tags      String?
   createdAt DateTime @default(now())
 }
+
+model MusicAlbum {
+  id        String   @id @default(cuid())
+  title     String
+  artist    String
+  year      Int?
+  genre     String   // rock, jazz, hiphop, electro, pop_us, fr, asia, africa
+  region    String?  // US, FR, JP, KR, Africa...
+  coverUrl  String?
+  vibe      String?  // night, nostalgia, chill, energetic...
+  classic   Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
 
 model ShowEpisode {
   id          String   @id @default(cuid())
@@ -46,5 +99,15 @@ model AestheticPost {
   imageUrl  String
   vibe      String?  // sunset LA, cozy room, city lights...
   tags      String?
+  createdAt DateTime @default(now())
+}
+
+model LegoCreation {
+  id        String   @id @default(cuid())
+  title     String           // nom de la création
+  imageUrl  String?          // image (locale plus tard)
+  sourceUrl String           // lien vers LEGO Ideas
+  category  String?          // diorama, art, jeu, architecture...
+  tags      String?          // lego, diy, creativity
   createdAt DateTime @default(now())
 }
