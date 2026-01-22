@@ -75,6 +75,7 @@ model MusicAlbum {
   genre     String   // rock, jazz, hiphop, electro, pop_us, fr, asia, africa
   region    String?  // US, FR, JP, KR, Africa...
   coverUrl  String?
+  coverImageUrl  String?
   vibe      String?  // night, nostalgia, chill, energetic...
   classic   Boolean  @default(true)
   createdAt DateTime @default(now())

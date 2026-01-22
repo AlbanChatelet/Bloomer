@@ -1,5 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+require("dotenv").config();
+console.log("DATABASE_URL (seed) =", process.env.DATABASE_URL);
 
 async function main() {
   // 🔥 Nettoyage
@@ -149,6 +151,8 @@ async function main() {
         year: 1969,
         genre: "rock",
         region: "UK",
+        coverUrl: "https://en.wikipedia.org/wiki/Abbey_Road",
+        coverImageUrl: "/images/MusicAlbums/abbey_road.jpg",
       },
       {
         title: "The Dark Side of the Moon",
@@ -156,6 +160,8 @@ async function main() {
         year: 1973,
         genre: "rock",
         region: "UK",
+        coverUrl: "https://en.wikipedia.org/wiki/The_Dark_Side_of_the_Moon",
+        coverImageUrl: "/images/MusicAlbums/the-dark-side-of-the-moon.png",
       },
       {
         title: "Nevermind",
@@ -163,6 +169,8 @@ async function main() {
         year: 1991,
         genre: "rock",
         region: "US",
+        coverUrl: "https://en.wikipedia.org/wiki/Nevermind",
+        coverImageUrl: "/images/MusicAlbums/nevermind.jpg",
       },
       {
         title: "OK Computer",
@@ -170,6 +178,8 @@ async function main() {
         year: 1997,
         genre: "rock",
         region: "UK",
+        coverUrl: "https://en.wikipedia.org/wiki/OK_Computer",
+        coverImageUrl: "/images/MusicAlbums/ok-computer.png",
       },
       {
         title: "Exile on Main St.",
@@ -177,6 +187,8 @@ async function main() {
         year: 1972,
         genre: "rock",
         region: "UK",
+        coverUrl: "https://en.wikipedia.org/wiki/Exile_on_Main_St.",
+        coverImageUrl: "/images/MusicAlbums/exile-on-main-st.jpg",
       },
 
       // JAZZ
@@ -186,6 +198,8 @@ async function main() {
         year: 1959,
         genre: "jazz",
         region: "US",
+        coverUrl: "https://en.wikipedia.org/wiki/Kind_of_Blue",
+        coverImageUrl: "/images/MusicAlbums/kind_of_blue.jpg",
       },
       {
         title: "A Love Supreme",
@@ -193,6 +207,8 @@ async function main() {
         year: 1965,
         genre: "jazz",
         region: "US",
+        coverUrl: "https://en.wikipedia.org/wiki/A_Love_Supreme",
+        coverImageUrl: "/images/MusicAlbums/a_love_supreme.jpg",
       },
       {
         title: "Time Out",
@@ -200,6 +216,9 @@ async function main() {
         year: 1959,
         genre: "jazz",
         region: "US",
+        coverUrl:
+          "https://en.wikipedia.org/wiki/Time_Out_(Dave_Brubeck_Quartet_album)",
+        coverImageUrl: "/images/MusicAlbums/time-out.jpg",
       },
       {
         title: "Head Hunters",
@@ -207,6 +226,8 @@ async function main() {
         year: 1973,
         genre: "jazz",
         region: "US",
+        coverUrl: "https://en.wikipedia.org/wiki/Head_Hunters",
+        coverImageUrl: "/images/MusicAlbums/head-hunters.png",
       },
       {
         title: "Mingus Ah Um",
@@ -214,6 +235,8 @@ async function main() {
         year: 1959,
         genre: "jazz",
         region: "US",
+        coverUrl: "https://en.wikipedia.org/wiki/Mingus_Ah_Um",
+        coverImageUrl: "/images/MusicAlbums/mingus-ah-um.jpg",
       },
 
       // HIP-HOP
@@ -223,6 +246,8 @@ async function main() {
         year: 1994,
         genre: "hiphop",
         region: "US",
+        coverUrl: "https://en.wikipedia.org/wiki/Illmatic",
+        coverImageUrl: "/images/MusicAlbums/illmatic.jpg",
       },
       {
         title: "My Beautiful Dark Twisted Fantasy",
@@ -230,6 +255,10 @@ async function main() {
         year: 2010,
         genre: "hiphop",
         region: "US",
+        coverUrl:
+          "https://en.wikipedia.org/wiki/My_Beautiful_Dark_Twisted_Fantasy",
+        coverImageUrl:
+          "/images/MusicAlbums/my-beautiful-dark-twisted-fantasy.jpg",
       },
       {
         title: "good kid, m.A.A.d city",
@@ -237,6 +266,8 @@ async function main() {
         year: 2012,
         genre: "hiphop",
         region: "US",
+        coverUrl: "https://en.wikipedia.org/wiki/Good_Kid,_M.A.A.D_City",
+        coverImageUrl: "/images/MusicAlbums/good-kid-maad-city.jpg",
       },
       {
         title: "The Low End Theory",
@@ -244,6 +275,8 @@ async function main() {
         year: 1991,
         genre: "hiphop",
         region: "US",
+        coverUrl: "https://en.wikipedia.org/wiki/The_Low_End_Theory",
+        coverImageUrl: "/images/MusicAlbums/the-low-end-theory.jpg",
       },
       {
         title: "Aquemini",
@@ -251,6 +284,8 @@ async function main() {
         year: 1998,
         genre: "hiphop",
         region: "US",
+        coverUrl: "https://en.wikipedia.org/wiki/Aquemini",
+        coverImageUrl: "/images/MusicAlbums/aquemini.jpg",
       },
 
       // ELECTRO
@@ -260,6 +295,8 @@ async function main() {
         year: 2001,
         genre: "electro",
         region: "FR",
+        coverUrl: "https://en.wikipedia.org/wiki/Discovery_(Daft_Punk_album)",
+        coverImageUrl: "/images/MusicAlbums/discovery.png",
       },
       {
         title: "Selected Ambient Works 85–92",
@@ -267,6 +304,9 @@ async function main() {
         year: 1992,
         genre: "electro",
         region: "UK",
+        coverUrl:
+          "https://en.wikipedia.org/wiki/Selected_Ambient_Works_85%E2%80%9392",
+        coverImageUrl: "/images/MusicAlbums/selected.png",
       },
       {
         title: "†",
@@ -274,6 +314,8 @@ async function main() {
         year: 2007,
         genre: "electro",
         region: "FR",
+        coverUrl: "https://en.wikipedia.org/wiki/%E2%80%A0_(Justice_album)",
+        coverImageUrl: "/images/MusicAlbums/Cross.jpg",
       },
       {
         title: "Music Has the Right to Children",
@@ -281,6 +323,9 @@ async function main() {
         year: 1998,
         genre: "electro",
         region: "UK",
+        coverUrl:
+          "https://en.wikipedia.org/wiki/Music_Has_the_Right_to_Children",
+        coverImageUrl: "/images/MusicAlbums/music-children.jpg",
       },
       {
         title: "Trans-Europe Express",
@@ -288,6 +333,8 @@ async function main() {
         year: 1977,
         genre: "electro",
         region: "DE",
+        coverUrl: "https://en.wikipedia.org/wiki/Trans-Europe_Express_(album)",
+        coverImageUrl: "/images/MusicAlbums/trans-europe-express.png",
       },
 
       // POP US
@@ -297,6 +344,9 @@ async function main() {
         year: 1982,
         genre: "pop_us",
         region: "US",
+        coverUrl:
+          "https://en.wikipedia.org/wiki/Thriller_(Michael_Jackson_album)",
+        coverImageUrl: "/images/MusicAlbums/thriller.png",
       },
       {
         title: "Purple Rain",
@@ -304,6 +354,8 @@ async function main() {
         year: 1984,
         genre: "pop_us",
         region: "US",
+        coverUrl: "https://en.wikipedia.org/wiki/Purple_Rain_(album)",
+        coverImageUrl: "/images/MusicAlbums/purple-rain.jpg",
       },
       {
         title: "Like a Prayer",
@@ -311,6 +363,8 @@ async function main() {
         year: 1989,
         genre: "pop_us",
         region: "US",
+        coverUrl: "https://en.wikipedia.org/wiki/Like_a_Prayer_(album)",
+        coverImageUrl: "/images/MusicAlbums/like-a-prayer.png",
       },
       {
         title: "Blonde",
@@ -318,6 +372,8 @@ async function main() {
         year: 2016,
         genre: "pop_us",
         region: "US",
+        coverUrl: "https://en.wikipedia.org/wiki/Blonde_(Frank_Ocean_album)",
+        coverImageUrl: "/images/MusicAlbums/blonde.jpeg",
       },
       {
         title: "Born to Die",
@@ -325,22 +381,28 @@ async function main() {
         year: 2012,
         genre: "pop_us",
         region: "US",
+        coverUrl: "https://en.wikipedia.org/wiki/Born_to_Die",
+        coverImageUrl: "/images/MusicAlbums/born-to-die.png",
       },
 
       // FR
       {
-        title: "Histoire de Melody Nelson",
-        artist: "Serge Gainsbourg",
-        year: 1971,
+        title: "Gang",
+        artist: "Johnny Hallyday",
+        year: 1986,
         genre: "fr",
         region: "FR",
+        coverUrl: "https://fr.wikipedia.org/wiki/Gang_(album)",
+        coverImageUrl: "/images/MusicAlbums/gang.jpg",
       },
       {
-        title: "Fantaisie Militaire",
-        artist: "Alain Bashung",
-        year: 1998,
+        title: "Amoureux de Paname",
+        artist: "Renaud",
+        year: 1975,
         genre: "fr",
         region: "FR",
+        coverUrl: "https://fr.wikipedia.org/wiki/Amoureux_de_Paname",
+        coverImageUrl: "/images/MusicAlbums/renaud.jpg",
       },
       {
         title: "Prose combat",
@@ -348,6 +410,8 @@ async function main() {
         year: 1994,
         genre: "fr",
         region: "FR",
+        coverUrl: "https://fr.wikipedia.org/wiki/Prose_combat",
+        coverImageUrl: "/images/MusicAlbums/prose-combat.jpg",
       },
 
       // ASIA
@@ -357,6 +421,8 @@ async function main() {
         year: 2005,
         genre: "asia",
         region: "JP",
+        coverUrl: "https://en.wikipedia.org/wiki/Modal_Soul",
+        coverImageUrl: "/images/MusicAlbums/modal-soul.jpg",
       },
       {
         title: "First Love",
@@ -364,6 +430,9 @@ async function main() {
         year: 1999,
         genre: "asia",
         region: "JP",
+        coverUrl:
+          "https://en.wikipedia.org/wiki/First_Love_(Hikaru_Utada_album)",
+        coverImageUrl: "/images/MusicAlbums/first-love.png",
       },
       {
         title: "Solid State Survivor",
@@ -371,6 +440,8 @@ async function main() {
         year: 1979,
         genre: "asia",
         region: "JP",
+        coverUrl: "https://en.wikipedia.org/wiki/Solid_State_Survivor",
+        coverImageUrl: "/images/MusicAlbums/solid-state-survivor.jpg",
       },
       {
         title: "Love Yourself: Tear",
@@ -378,6 +449,8 @@ async function main() {
         year: 2018,
         genre: "asia",
         region: "KR",
+        coverUrl: "https://en.wikipedia.org/wiki/Love_Yourself:_Tear",
+        coverImageUrl: "/images/MusicAlbums/love-yourself-tears.jpeg",
       },
 
       // AFRICA
@@ -387,6 +460,8 @@ async function main() {
         year: 1976,
         genre: "africa",
         region: "NG",
+        coverUrl: "https://en.wikipedia.org/wiki/Zombie_(Fela_Kuti_album)",
+        coverImageUrl: "/images/MusicAlbums/zombie.jpg",
       },
       {
         title: "African Giant",
@@ -394,6 +469,8 @@ async function main() {
         year: 2019,
         genre: "africa",
         region: "NG",
+        coverUrl: "https://en.wikipedia.org/wiki/African_Giant",
+        coverImageUrl: "/images/MusicAlbums/african_giant.png",
       },
       {
         title: "Talking Timbuktu",
@@ -401,6 +478,8 @@ async function main() {
         year: 1994,
         genre: "africa",
         region: "ML",
+        coverUrl: "https://en.wikipedia.org/wiki/Talking_Timbuktu",
+        coverImageUrl: "/images/MusicAlbums/talking-timbuktu.jpg",
       },
     ],
   });
