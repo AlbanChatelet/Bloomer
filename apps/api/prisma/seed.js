@@ -514,6 +514,41 @@ async function main() {
         vibe: "vintage room",
         tags: "vinyl,room,vintage",
       },
+      {
+        title: "Idée déco mur vinyles",
+        imageUrl: "/images/MusicAesthetics/idee_deco_vinyles_mur.jpg",
+        sourceUrl: "https://fr.pinterest.com/pin/336855247147947954/",
+        vibe: "wall decor",
+        tags: "vinyl,decor,wall,poster,room",
+      },
+      {
+        title: "Platine vintage",
+        imageUrl: "/images/MusicAesthetics/platine_vintage.jpg",
+        sourceUrl: "https://fr.pinterest.com/pin/813814595207482345/",
+        vibe: "vintage",
+        tags: "turntable,vintage,vinyl,decor,setup",
+      },
+      {
+        title: "Concept porte-manteau vinyles",
+        imageUrl: "/images/MusicAesthetics/porte_manteau_vinyle.jpg",
+        sourceUrl: "https://fr.pinterest.com/pin/10062799164110413/",
+        vibe: "creative diy",
+        tags: "vinyl,coat rack,diy,decor,upcycling",
+      },
+      {
+        title: "Vinyles en étagère de livres",
+        imageUrl: "/images/MusicAesthetics/vinyle_etagere.jpg",
+        sourceUrl: "https://fr.pinterest.com/pin/18295942231201467/",
+        vibe: "diy shelf",
+        tags: "vinyl,shelf,books,diy,decor",
+      },
+      {
+        title: "Mur lumineux avec guirlande & vinyles",
+        imageUrl: "/images/MusicAesthetics/vinyles_lumineux.jpg",
+        sourceUrl: "https://fr.pinterest.com/pin/633387444214847/",
+        vibe: "cozy lights",
+        tags: "vinyl,lights,cozy,room,wall decor",
+      },
     ],
   });
 

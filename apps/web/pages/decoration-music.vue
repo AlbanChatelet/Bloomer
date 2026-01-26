@@ -52,7 +52,7 @@ onBeforeUnmount(() => window.removeEventListener("keydown", onKey));
 
 <template>
   <div
-    class="min-h-screen bg-gradient-to-b from-zinc-950 via-zinc-950 to-zinc-900 text-zinc-100"
+    class="min-h-screen bg-gradient-to-b from-amber-50 to-orange-50 text-zinc-900"
   >
     <!-- NAV -->
     <nav
@@ -80,9 +80,7 @@ onBeforeUnmount(() => window.removeEventListener("keydown", onKey));
       <h1 class="mt-3 text-4xl font-extrabold leading-tight sm:text-5xl">
         Galerie <span class="text-amber-300">aesthetic</span>
       </h1>
-      <p class="mt-4 max-w-2xl text-white/70">
-        Hover = petit zoom. Clic = zoom 1er plan (effet “pop”).
-      </p>
+      
     </header>
 
     <!-- CONTENT -->
