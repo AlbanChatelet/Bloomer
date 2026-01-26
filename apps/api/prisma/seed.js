@@ -11,7 +11,7 @@ async function main() {
   await prisma.aestheticPost.deleteMany();
   await prisma.musicAlbum.deleteMany();
   await prisma.musicAesthetic.deleteMany();
-  await prisma.showEpisode.deleteMany();
+
   await prisma.legoCreation.deleteMany();
 
   // 🎵 VINYLS
@@ -488,28 +488,28 @@ async function main() {
     data: [
       {
         title: "Vinyl records & album covers wall decor",
-        imageUrl: "/images/music-aesthetic/pin-73113193947026784.jpg",
+        imageUrl: "/images/MusicAesthetics/wall_decor.jpg",
         sourceUrl: "https://fr.pinterest.com/pin/73113193947026784/",
         vibe: "wall decor",
         tags: "vinyl,decor,wall",
       },
       {
         title: "Idée story - vinyls aux pieds",
-        imageUrl: "/images/music-aesthetic/pin-62909726038198348.jpg",
+        imageUrl: "/images/MusicAesthetics/creative_photo.jpg",
         sourceUrl: "https://fr.pinterest.com/pin/62909726038198348/",
         vibe: "creative photo",
         tags: "vinyl,photo,aesthetic",
       },
       {
         title: "Décorations originales de vinyles sur un mur",
-        imageUrl: "/images/music-aesthetic/pin-72198400273264887.jpg",
+        imageUrl: "/images/MusicAesthetics/wall_decor_2.jpg",
         sourceUrl: "https://fr.pinterest.com/pin/72198400273264887/",
         vibe: "wall decor",
         tags: "vinyl,decor,wall",
       },
       {
         title: "Chambre décorée avec des vinyles (vintage)",
-        imageUrl: "/images/music-aesthetic/pin-1970393583899303.jpg",
+        imageUrl: "/images/MusicAesthetics/vintage_room.jpg",
         sourceUrl: "https://fr.pinterest.com/pin/1970393583899303/",
         vibe: "vintage room",
         tags: "vinyl,room,vintage",
