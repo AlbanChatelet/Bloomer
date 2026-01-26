@@ -135,46 +135,7 @@ const genreLabel: Record<string, string> = {
       </div>
     </header>
 
-    <!-- SECTION: VINYLS -->
-    <section id="vinyls" class="mx-auto max-w-6xl px-6 py-10">
-      <div class="flex items-end justify-between gap-6">
-        <div>
-          <h2 class="text-2xl font-bold">🎵 Vinyles & pochettes</h2>
-          <p class="mt-2 text-zinc-700">
-            Une vibe “Pinterest” : des pochettes qui donnent envie d’écouter un album en entier.
-          </p>
-        </div>
-      </div>
-
-      <div class="mt-7 columns-2 gap-4 sm:columns-3 lg:columns-4">
-        <div
-          v-for="v in (vinyls || [])"
-          :key="v.id"
-          class="mb-4 break-inside-avoid overflow-hidden rounded-2xl bg-white/70 shadow-sm ring-1 ring-black/5"
-        >
-          <div class="aspect-[1/1] w-full bg-amber-100">
-            <img
-              v-if="v.coverUrl"
-              :src="v.coverUrl"
-              :alt="`${v.artist} - ${v.title}`"
-              class="h-full w-full object-cover"
-              loading="lazy"
-            />
-          </div>
-          <div class="p-4">
-            <p class="text-sm font-semibold">{{ v.title }}</p>
-            <p class="text-sm text-zinc-600">
-              {{ v.artist }} <span v-if="v.year">· {{ v.year }}</span>
-            </p>
-            <p v-if="v.tags" class="mt-2 text-xs text-zinc-500"># {{ v.tags }}</p>
-          </div>
-        </div>
-
-        <div v-if="!vinyls || vinyls.length === 0" class="rounded-2xl bg-white/60 p-5 text-zinc-700 ring-1 ring-black/5">
-          Ajoute des vinyles via Prisma Studio pour remplir cette section.
-        </div>
-      </div>
-    </section>
+   >
 
     
 
@@ -257,111 +218,9 @@ const genreLabel: Record<string, string> = {
       </div>
     </section>
 
-    <!-- SECTION: NOSTALGIE (placeholder) -->
-    <section id="nostalgie" class="mx-auto max-w-6xl px-6 py-10">
-      <h2 class="text-2xl font-bold">🕹️ Nostalgie générationnelle</h2>
-      <p class="mt-2 max-w-2xl text-zinc-700">
-        Des souvenirs qui reviennent d’un coup : DS, Wii, dessins animés, creepypastas, interfaces d’époque.
-      </p>
+    
 
-      <div class="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div class="rounded-2xl bg-white/70 p-5 ring-1 ring-black/5 hover:bg-white">
-          <p class="text-sm font-bold">Nintendo DS</p>
-          <p class="mt-2 text-sm text-zinc-700">Les jeux que tu relançais 50 fois.</p>
-        </div>
-
-        <div class="rounded-2xl bg-white/70 p-5 ring-1 ring-black/5 hover:bg-white">
-          <p class="text-sm font-bold">Wii</p>
-          <p class="mt-2 text-sm text-zinc-700">Le fun simple, sans prise de tête.</p>
-        </div>
-
-        <div class="rounded-2xl bg-white/70 p-5 ring-1 ring-black/5 hover:bg-white">
-          <p class="text-sm font-bold">Cartoons</p>
-          <p class="mt-2 text-sm text-zinc-700">Des épisodes que tu connais par cœur.</p>
-        </div>
-
-        <div class="rounded-2xl bg-white/70 p-5 ring-1 ring-black/5 hover:bg-white">
-          <p class="text-sm font-bold">Creepypastas</p>
-          <p class="mt-2 text-sm text-zinc-700">La peur qui devient souvenir.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- SECTION: AESTHETIC -->
-    <section id="aesthetic" class="mx-auto max-w-6xl px-6 py-10">
-      <h2 class="text-2xl font-bold">🌇 Aesthetic</h2>
-      <p class="mt-2 max-w-2xl text-zinc-700">
-        Images qui donnent envie de respirer : couchers de soleil, collections, ambiances “cozy”, vibes nerd.
-      </p>
-
-      <div class="mt-7 columns-1 gap-4 sm:columns-2 lg:columns-3">
-        <figure
-          v-for="a in (aesthetics || [])"
-          :key="a.id"
-          class="mb-4 break-inside-avoid overflow-hidden rounded-2xl bg-white/70 shadow-sm ring-1 ring-black/5"
-        >
-          <div class="w-full bg-amber-100">
-            <img :src="a.imageUrl" :alt="a.title || 'Aesthetic'" class="w-full object-cover" loading="lazy" />
-          </div>
-          <figcaption class="p-4">
-            <p v-if="a.title" class="text-sm font-semibold">{{ a.title }}</p>
-            <p v-if="a.vibe" class="text-sm text-zinc-600">{{ a.vibe }}</p>
-            <p v-if="a.tags" class="mt-2 text-xs text-zinc-500"># {{ a.tags }}</p>
-          </figcaption>
-        </figure>
-
-        <div v-if="!aesthetics || aesthetics.length === 0" class="rounded-2xl bg-white/60 p-5 text-zinc-700 ring-1 ring-black/5">
-          Ajoute des images (URL) via Prisma Studio pour remplir la galerie.
-        </div>
-      </div>
-    </section>
-
-    <!-- SECTION: CREATIONS -->
-    <section id="creations" class="mx-auto max-w-6xl px-6 py-12">
-      <h2 class="text-2xl font-bold">🧱 Créations</h2>
-      <p class="mt-2 max-w-2xl text-zinc-700">
-        Des trucs faits par des gens : Lego, dessin, fan-art, DIY. Pas besoin de coûter un bras pour créer.
-      </p>
-
-      <div class="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <article
-          v-for="c in (creations || [])"
-          :key="c.id"
-          class="overflow-hidden rounded-2xl bg-white/70 shadow-sm ring-1 ring-black/5 hover:bg-white"
-        >
-          <div class="aspect-[4/3] bg-amber-100">
-            <img v-if="c.imageUrl" :src="c.imageUrl" :alt="c.title" class="h-full w-full object-cover" loading="lazy" />
-          </div>
-          <div class="p-5">
-            <div class="flex items-center justify-between gap-4">
-              <p class="text-sm font-bold">{{ c.title }}</p>
-              <span class="rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-900">
-                {{ c.type }}
-              </span>
-            </div>
-
-            <p v-if="c.description" class="mt-3 text-sm text-zinc-700">
-              {{ c.description }}
-            </p>
-
-            <p v-if="c.author" class="mt-3 text-xs text-zinc-600">
-              par {{ c.author }}
-            </p>
-
-            <p v-if="c.tags" class="mt-2 text-xs text-zinc-500"># {{ c.tags }}</p>
-          </div>
-        </article>
-
-        <div v-if="!creations || creations.length === 0" class="rounded-2xl bg-white/60 p-5 text-zinc-700 ring-1 ring-black/5">
-          Ajoute des créations via Prisma Studio.
-        </div>
-      </div>
-
-      <footer class="mt-14 rounded-2xl bg-white/60 p-6 text-zinc-700 ring-1 ring-black/5">
-        <p class="text-sm">
-          Le but n’est pas de “consommer plus”, mais de retrouver des choses qui marquent et donnent envie de vivre.
-        </p>
-      </footer>
-    </section>
+  
+    
   </div>
 </template>
