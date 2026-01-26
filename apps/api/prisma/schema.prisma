@@ -28,6 +28,19 @@ model MusicAesthetic {
   createdAt   DateTime @default(now())
 }
 
+model DiyCreation {
+  id        String   @id @default(cuid())
+  title     String
+  coverUrl  String
+  images    Json     // tableau de strings
+  sourceUrl String?
+  creator   String?
+  craft     String?
+  tags      String?
+  note      String?
+  createdAt DateTime @default(now())
+}
+
 model CultShow {
   id        String   @id @default(cuid())
   title     String

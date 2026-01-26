@@ -75,3 +75,10 @@ app.get("/lego-creations", async (req, res) => {
   });
   res.json(items);
 });
+
+app.get("/diy-creations", async (req, res) => {
+  const items = await prisma.diyCreation.findMany({
+    orderBy: { createdAt: "desc" },
+  });
+  res.json(items);
+});

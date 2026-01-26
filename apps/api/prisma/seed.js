@@ -11,7 +11,7 @@ async function main() {
   await prisma.aestheticPost.deleteMany();
   await prisma.musicAlbum.deleteMany();
   await prisma.musicAesthetic.deleteMany();
-
+  await prisma.diyCreation.deleteMany();
   await prisma.legoCreation.deleteMany();
 
   // 🎵 VINYLS
@@ -110,6 +110,94 @@ async function main() {
       },
     ],
   });
+
+  await prisma.diyCreation.createMany({
+    data: [
+      {
+        title: "Custom Pokémon cards — Akwakwak & Psykokwak (paint)",
+        coverUrl: "/images/diy/novacollects_pokemon/cover.jpg",
+        images: [
+          "/images/diy/novacollects_pokemon/step_1.png",
+          "/images/diy/novacollects_pokemon/step_2.png",
+          "/images/diy/novacollects_pokemon/step_3.png",
+          "/images/diy/novacollects_pokemon/step_4.png",
+          "/images/diy/novacollects_pokemon/step_5.png",
+        ],
+        sourceUrl: "https://www.instagram.com/reel/DRVK_4rkvHY/",
+        creator: "@novacollects",
+        craft: "custom pokemon",
+        tags: "pokemon,custom,paint,cards,diy",
+        note: "À partir de 2 cartes Pokémon + peinture : transformation en mini tableau.",
+      },
+      {
+        title: "Pokémon card 3D — Suicune (Shadowbox)",
+        coverUrl: "/images/diy/suicune/cover.jpg", // ou cover.jpg selon ton fichier
+        images: [
+          "/images/diy/suicune/step_1.png",
+          "/images/diy/suicune/step_2.png",
+          "/images/diy/suicune/step_3.png",
+          "/images/diy/suicune/step_4.png",
+          "/images/diy/suicune/step_5.png",
+        ],
+        sourceUrl: "https://www.instagram.com/reel/C8AqrBnIgDb/",
+        creator: "@mr.shadowbox",
+        craft: "custom pokemon",
+        tags: "pokemon,3d,shadowbox,cards,diy",
+        note: "Carte Pokémon en relief (shadowbox) : découpe + empilement des couches pour un effet 3D.",
+      },
+      {
+        title: "Skate Pokémon — thème électrique (peinture)",
+        coverUrl: "/images/diy/skate_pokemon/cover.jpg", // mets le bon nom si c'est pas cover.png
+        images: [
+          "/images/diy/skate_pokemon/step_1.png",
+          "/images/diy/skate_pokemon/step_2.png",
+          "/images/diy/skate_pokemon/step_3.png",
+          "/images/diy/skate_pokemon/step_4.png",
+          "/images/diy/skate_pokemon/step_5.png",
+        ],
+        sourceUrl: "https://www.instagram.com/reel/DRAeGrMEksq/",
+        creator: "@mr.anderson.x",
+        craft: "painting",
+        tags: "pokemon,skateboard,painting,electric,custom,diy",
+        note: "Planche de skate custom Pokémon (type électrique) : peinture étape par étape jusqu’au rendu final.",
+      },
+
+      {
+        title: "Broderie Mario — tambour brodé",
+        coverUrl: "/images/diy/broderie_mario/cover.jpg",
+        images: [
+          "/images/diy/broderie_mario/step_1.png",
+          "/images/diy/broderie_mario/step_2.png",
+          "/images/diy/broderie_mario/step_3.png",
+          "/images/diy/broderie_mario/step_4.png",
+          "/images/diy/broderie_mario/step_5.png",
+        ],
+        sourceUrl: "https://vm.tiktok.com/ZNRSXTw2C/",
+        creator: "@zazu.hoops",
+        craft: "embroidery",
+        tags: "mario,embroidery,broderie,nintendo,diy",
+        note: "Broderie sur tambour représentant Mario : traçage du motif, broderie progressive et finitions.",
+      },
+
+      {
+        title: "Flocon de neige de Noël — coton-tiges",
+        coverUrl: "/images/diy/flocon_coton_tige/cover.png",
+        images: [
+          "/images/diy/flocon_coton_tige/step_1.png",
+          "/images/diy/flocon_coton_tige/step_2.png",
+          "/images/diy/flocon_coton_tige/step_3.png",
+          "/images/diy/flocon_coton_tige/step_4.png",
+          "/images/diy/flocon_coton_tige/step_5.png",
+        ],
+        sourceUrl: "https://fr.pinterest.com/pin/492649954695926/",
+        creator: "Undergroundmags",
+        craft: "christmas craft",
+        tags: "noel,christmas,snowflake,flocon,coton-tige,diy,decoration",
+        note: "DIY flocon de neige de Noël réalisé avec des coton-tiges et de la colle forte, à suspendre en décoration.",
+      },
+    ],
+  });
+    
 
   // 🧱 CREATIONS
   await prisma.creation.createMany({
