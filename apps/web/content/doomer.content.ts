@@ -41,7 +41,7 @@ export const doomerThemes: Theme[] = [
     image: "/doomer/images/scrolling_addiction.jpg",
     illustrations: {
       image1: "/doomer/illustrations/dopamine-scroll/image1.jpg",
-      image2: "/doomer/illustrations/dopamine-scroll/image2.jpg",
+      image2: "/doomer/illustrations/dopamine-scroll/image2.png",
       image3: "/doomer/illustrations/dopamine-scroll/image3.jpg",
     },
   },
@@ -53,7 +53,7 @@ export const doomerThemes: Theme[] = [
     label: "Espace",
     image: "/doomer/images/decors_froids.jpg",
     illustrations: {
-      image1: "/doomer/illustrations/decors-froids/image1.jpg",
+      image1: "/doomer/illustrations/decors-froids/image1.webp",
       image2: "/doomer/illustrations/decors-froids/image2.jpg",
       image3: "/doomer/illustrations/decors-froids/image3.jpg",
     },
@@ -66,8 +66,8 @@ export const doomerThemes: Theme[] = [
     label: "Décalage",
     image: "/doomer/images/virtuel_infini.jpg",
     illustrations: {
-      image1: "/doomer/illustrations/virtuel-vs-reel/image1.jpg",
-      image2: "/doomer/illustrations/virtuel-vs-reel/image2.jpg",
+      image1: "/doomer/illustrations/virtuel-vs-reel/image1.jpeg",
+      image2: "/doomer/illustrations/virtuel-vs-reel/image2.webp",
       image3: "/doomer/illustrations/virtuel-vs-reel/image3.jpg",
     },
   },
@@ -79,9 +79,9 @@ export const doomerThemes: Theme[] = [
     label: "Existence",
     image: "/doomer/images/grand_recit.jpg",
     illustrations: {
-      image1: "/doomer/illustrations/perte-de-sens/image1.jpg",
-      image2: "/doomer/illustrations/perte-de-sens/image2.jpg",
-      image3: "/doomer/illustrations/perte-de-sens/image3.jpg",
+      image1: "/doomer/illustrations/perte-de-sens/image1.jpeg",
+      image2: "/doomer/illustrations/perte-de-sens/image2.webp",
+      image3: "/doomer/illustrations/perte-de-sens/image3.avif",
     },
   },
   {

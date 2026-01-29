@@ -106,18 +106,18 @@ const illus = computed(() => theme.value!.illustrations)
               </div>
 
               <div class="relative aspect-[16/9] w-full">
-                
-                <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,#141424,transparent_60%)]"></div>
-                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/35 to-black/10"></div>
+
+                <div class="absolute bg-[radial-gradient(circle_at_top,#141424,transparent_60%)]"></div>
+                <div class="absolute bg-gradient-to-t from-black/80 via-black/35 to-black/10"></div>
                 <img
   :src="illus.image1"
   :alt="`Illustration 1 — ${theme!.title}`"
-  class="absolute inset-0 h-full w-full object-cover"
+  class="absolute h-full w-full object-cover"
 />
 
 <!-- overlays (tu peux les laisser, ça marche nickel par-dessus l'image) -->
-<div class="absolute inset-0 bg-[radial-gradient(circle_at_top,#141424,transparent_60%)]"></div>
-<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/35 to-black/10"></div>
+<div class="absolute bg-[radial-gradient(circle_at_top,#141424,transparent_60%)]"></div>
+<div class="absolute bg-gradient-to-t from-black/80 via-black/35 to-black/10"></div>
               </div>
 
               <div class="relative border-t border-white/10 p-4">
@@ -127,6 +127,7 @@ const illus = computed(() => theme.value!.illustrations)
               </div>
             </div>
           </section>
+          
 
           <!-- Blocs dynamiques -->
           <div
@@ -146,10 +147,31 @@ const illus = computed(() => theme.value!.illustrations)
                 <p v-for="(p, j) in b.paragraphs" :key="j">{{ p }}</p>
               </div>
               <div class="mt-5 h-[2px] w-12 bg-gradient-to-r from-fuchsia-400 via-cyan-300 to-indigo-400"></div>
+
+              
             </template>
+            
 
             <!-- LIST -->
             <template v-else-if="b.kind === 'list'">
+              <!-- Cadre image 2 (au début des actions, ça marche bien visuellement) -->
+              <div class="mt-5 mb-5 group relative overflow-hidden rounded-3xl border border-white/10 bg-black/40">
+                <div class="absolute -inset-1 opacity-0 blur-xl transition duration-500 group-hover:opacity-100">
+                  <div class="h-full w-full rounded-[26px] bg-gradient-to-br from-cyan-400/25 via-fuchsia-500/20 to-indigo-500/25"></div>
+                </div>
+                <div class="relative aspect-[21/9] w-full">
+                  <div class="absolute bg-[radial-gradient(circle_at_top,#101022,transparent_60%)]"></div>
+                  <div class="absolute bg-gradient-to-t from-black/80 via-black/30 to-black/10"></div>
+                  <img
+  :src="illus.image2"
+  :alt="`Illustration 2 — ${theme!.title}`"
+  class="absolute h-full w-full object-cover"
+/>
+
+<div class="absolute bg-[radial-gradient(circle_at_top,#101022,transparent_60%)]"></div>
+<div class="absolute bg-gradient-to-t from-black/80 via-black/30 to-black/10"></div>
+                </div>
+              </div>
               <h3 class="text-lg font-extrabold">{{ b.title }}</h3>
               <ul class="mt-4 space-y-2 text-sm text-zinc-300">
                 <li v-for="(it, j) in b.items" :key="j" class="flex gap-3">
@@ -175,24 +197,25 @@ const illus = computed(() => theme.value!.illustrations)
             <template v-else-if="b.kind === 'actions'">
               <h3 class="text-lg font-extrabold">{{ b.title }}</h3>
 
-              <!-- Cadre image 2 (au début des actions, ça marche bien visuellement) -->
-              <div class="mt-5 group relative overflow-hidden rounded-3xl border border-white/10 bg-black/40">
-                <div class="absolute -inset-1 opacity-0 blur-xl transition duration-500 group-hover:opacity-100">
-                  <div class="h-full w-full rounded-[26px] bg-gradient-to-br from-cyan-400/25 via-fuchsia-500/20 to-indigo-500/25"></div>
-                </div>
-                <div class="relative aspect-[21/9] w-full">
-                  <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,#101022,transparent_60%)]"></div>
-                  <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10"></div>
-                  <img
-  :src="illus.image2"
-  :alt="`Illustration 2 — ${theme!.title}`"
-  class="absolute inset-0 h-full w-full object-cover"
+              <!-- Cadre image 3 -->
+            <div class="mt-5 group relative overflow-hidden rounded-3xl border border-white/10 bg-black/40">
+              <div class="absolute -inset-1 opacity-0 blur-xl transition duration-500 group-hover:opacity-100">
+                <div class="h-full w-full rounded-[26px] bg-gradient-to-br from-indigo-500/30 via-cyan-400/20 to-fuchsia-500/30"></div>
+              </div>
+
+              <div class="relative aspect-[16/10] w-full">
+                <div class="absolute bg-[radial-gradient(circle_at_top,#12122a,transparent_60%)]"></div>
+                <div class="absolute  bg-gradient-to-t from-black/80 via-black/35 to-black/10"></div>
+                <img
+  :src="illus.image3"
+  :alt="`Illustration 3 — ${theme!.title}`"
+  class="absolute h-full w-full object-cover"
 />
 
-<div class="absolute inset-0 bg-[radial-gradient(circle_at_top,#101022,transparent_60%)]"></div>
-<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10"></div>
-                </div>
+<div class="absolute bg-[radial-gradient(circle_at_top,#12122a,transparent_60%)]"></div>
+<div class="absolute bg-gradient-to-t from-black/80 via-black/35 to-black/10"></div>
               </div>
+            </div>
 
               <div class="mt-5 grid gap-4 sm:grid-cols-2">
                 <article
@@ -224,25 +247,7 @@ const illus = computed(() => theme.value!.illustrations)
               <div class="h-[2px] w-20 bg-gradient-to-r from-fuchsia-400 via-cyan-300 to-indigo-400 opacity-80"></div>
             </div>
 
-            <!-- Cadre image 3 -->
-            <div class="mt-5 group relative overflow-hidden rounded-3xl border border-white/10 bg-black/40">
-              <div class="absolute -inset-1 opacity-0 blur-xl transition duration-500 group-hover:opacity-100">
-                <div class="h-full w-full rounded-[26px] bg-gradient-to-br from-indigo-500/30 via-cyan-400/20 to-fuchsia-500/30"></div>
-              </div>
-
-              <div class="relative aspect-[16/10] w-full">
-                <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,#12122a,transparent_60%)]"></div>
-                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/35 to-black/10"></div>
-                <img
-  :src="illus.image3"
-  :alt="`Illustration 3 — ${theme!.title}`"
-  class="absolute inset-0 h-full w-full object-cover"
-/>
-
-<div class="absolute inset-0 bg-[radial-gradient(circle_at_top,#12122a,transparent_60%)]"></div>
-<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/35 to-black/10"></div>
-              </div>
-            </div>
+            
 
             <div class="mt-6 flex flex-wrap items-center justify-between gap-3">
               <NuxtLink
