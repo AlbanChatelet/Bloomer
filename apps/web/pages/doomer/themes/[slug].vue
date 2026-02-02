@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { doomerThemes, doomerContent } from "~/content/doomer.content"
+import DoomerHeader from "~/components/DoomerHeader.vue"
 
 const route = useRoute()
 
@@ -15,11 +16,14 @@ const next = computed(() => (index.value >= 0 && index.value < themes.length - 1
 
 const blocks = computed(() => doomerContent[slug.value] || [])
 
-// 3 cadres d’illustration (tu mettras tes images plus tard)
+// 3 cadres d’illustration
 const illus = computed(() => theme.value!.illustrations)
 </script>
 
 <template>
+  <!-- NAV globale (transparent + blur) -->
+  <DoomerHeader />
+
   <div class="min-h-screen bg-[#06060a] text-zinc-100">
     <!-- Background accents -->
     <div class="pointer-events-none fixed inset-0 -z-10">
@@ -28,8 +32,8 @@ const illus = computed(() => theme.value!.illustrations)
       <div class="absolute bottom-[-10rem] left-[-10rem] h-[22rem] w-[22rem] rounded-full bg-fuchsia-500/10 blur-3xl"></div>
     </div>
 
-    <!-- HEADER -->
-    <header class="relative overflow-hidden border-b border-white/10">
+    <!-- HERO du thème (sans nav, car nav = DoomerHeader) -->
+    <header class="relative overflow-hidden pt-24">
       <div class="absolute inset-0">
         <div class="h-full w-full bg-cover bg-center" :style="{ backgroundImage: `url(${theme!.image})` }" />
         <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 to-black/25"></div>
@@ -38,6 +42,7 @@ const illus = computed(() => theme.value!.illustrations)
       </div>
 
       <div class="relative mx-auto max-w-6xl px-6 py-14">
+        <!-- Petites infos (pas un nav) -->
         <div class="flex flex-wrap items-center gap-3">
           <NuxtLink
             to="/doomer"
@@ -106,28 +111,18 @@ const illus = computed(() => theme.value!.illustrations)
               </div>
 
               <div class="relative aspect-[16/9] w-full">
-
-                <div class="absolute bg-[radial-gradient(circle_at_top,#141424,transparent_60%)]"></div>
-                <div class="absolute bg-gradient-to-t from-black/80 via-black/35 to-black/10"></div>
                 <img
-  :src="illus.image1"
-  :alt="`Illustration 1 — ${theme!.title}`"
-  class="absolute h-full w-full object-cover"
-/>
+                  :src="illus.image1"
+                  :alt="`Illustration 1 — ${theme!.title}`"
+                  class="absolute h-full w-full object-cover"
+                />
 
-<!-- overlays (tu peux les laisser, ça marche nickel par-dessus l'image) -->
-<div class="absolute bg-[radial-gradient(circle_at_top,#141424,transparent_60%)]"></div>
-<div class="absolute bg-gradient-to-t from-black/80 via-black/35 to-black/10"></div>
-              </div>
-
-              <div class="relative border-t border-white/10 p-4">
-                <p class="text-xs text-zinc-300">
-                  Illustration du thème — ambiance / symbole / scène (tu peux mettre une caption ici plus tard).
-                </p>
+                <!-- overlays -->
+                <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,#141424,transparent_60%)]"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/35 to-black/10"></div>
               </div>
             </div>
           </section>
-          
 
           <!-- Blocs dynamiques -->
           <div
@@ -135,9 +130,6 @@ const illus = computed(() => theme.value!.illustrations)
             :key="i"
             class="group rounded-3xl border border-white/10 bg-white/5 p-6 transition hover:-translate-y-[2px] hover:bg-white/[0.07]"
           >
-            <!-- Glow léger -->
-            <div class="pointer-events-none absolute opacity-0 group-hover:opacity-100 transition duration-500"></div>
-
             <!-- TEXT -->
             <template v-if="b.kind === 'text'">
               <h3 class="text-lg font-extrabold">
@@ -147,31 +139,27 @@ const illus = computed(() => theme.value!.illustrations)
                 <p v-for="(p, j) in b.paragraphs" :key="j">{{ p }}</p>
               </div>
               <div class="mt-5 h-[2px] w-12 bg-gradient-to-r from-fuchsia-400 via-cyan-300 to-indigo-400"></div>
-
-              
             </template>
-            
 
             <!-- LIST -->
             <template v-else-if="b.kind === 'list'">
-              <!-- Cadre image 2 (au début des actions, ça marche bien visuellement) -->
-              <div class="mt-5 mb-5 group relative overflow-hidden rounded-3xl border border-white/10 bg-black/40">
+              <!-- Cadre image 2 -->
+              <div class="mt-5 mb-5 group relative overflow-hidden rounded-3xl border border-white/10 bg-black/40" id="act-2">
                 <div class="absolute -inset-1 opacity-0 blur-xl transition duration-500 group-hover:opacity-100">
                   <div class="h-full w-full rounded-[26px] bg-gradient-to-br from-cyan-400/25 via-fuchsia-500/20 to-indigo-500/25"></div>
                 </div>
-                <div class="relative aspect-[21/9] w-full">
-                  <div class="absolute bg-[radial-gradient(circle_at_top,#101022,transparent_60%)]"></div>
-                  <div class="absolute bg-gradient-to-t from-black/80 via-black/30 to-black/10"></div>
-                  <img
-  :src="illus.image2"
-  :alt="`Illustration 2 — ${theme!.title}`"
-  class="absolute h-full w-full object-cover"
-/>
 
-<div class="absolute bg-[radial-gradient(circle_at_top,#101022,transparent_60%)]"></div>
-<div class="absolute bg-gradient-to-t from-black/80 via-black/30 to-black/10"></div>
+                <div class="relative aspect-[21/9] w-full">
+                  <img
+                    :src="illus.image2"
+                    :alt="`Illustration 2 — ${theme!.title}`"
+                    class="absolute h-full w-full object-cover"
+                  />
+                  <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,#101022,transparent_60%)]"></div>
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10"></div>
                 </div>
               </div>
+
               <h3 class="text-lg font-extrabold">{{ b.title }}</h3>
               <ul class="mt-4 space-y-2 text-sm text-zinc-300">
                 <li v-for="(it, j) in b.items" :key="j" class="flex gap-3">
@@ -198,24 +186,21 @@ const illus = computed(() => theme.value!.illustrations)
               <h3 class="text-lg font-extrabold">{{ b.title }}</h3>
 
               <!-- Cadre image 3 -->
-            <div class="mt-5 group relative overflow-hidden rounded-3xl border border-white/10 bg-black/40">
-              <div class="absolute -inset-1 opacity-0 blur-xl transition duration-500 group-hover:opacity-100">
-                <div class="h-full w-full rounded-[26px] bg-gradient-to-br from-indigo-500/30 via-cyan-400/20 to-fuchsia-500/30"></div>
-              </div>
+              <div class="mt-5 group relative overflow-hidden rounded-3xl border border-white/10 bg-black/40">
+                <div class="absolute -inset-1 opacity-0 blur-xl transition duration-500 group-hover:opacity-100">
+                  <div class="h-full w-full rounded-[26px] bg-gradient-to-br from-indigo-500/30 via-cyan-400/20 to-fuchsia-500/30"></div>
+                </div>
 
-              <div class="relative aspect-[16/10] w-full">
-                <div class="absolute bg-[radial-gradient(circle_at_top,#12122a,transparent_60%)]"></div>
-                <div class="absolute  bg-gradient-to-t from-black/80 via-black/35 to-black/10"></div>
-                <img
-  :src="illus.image3"
-  :alt="`Illustration 3 — ${theme!.title}`"
-  class="absolute h-full w-full object-cover"
-/>
-
-<div class="absolute bg-[radial-gradient(circle_at_top,#12122a,transparent_60%)]"></div>
-<div class="absolute bg-gradient-to-t from-black/80 via-black/35 to-black/10"></div>
+                <div class="relative aspect-[16/10] w-full">
+                  <img
+                    :src="illus.image3"
+                    :alt="`Illustration 3 — ${theme!.title}`"
+                    class="absolute h-full w-full object-cover"
+                  />
+                  <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,#12122a,transparent_60%)]"></div>
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/35 to-black/10"></div>
+                </div>
               </div>
-            </div>
 
               <div class="mt-5 grid gap-4 sm:grid-cols-2">
                 <article
@@ -247,8 +232,6 @@ const illus = computed(() => theme.value!.illustrations)
               <div class="h-[2px] w-20 bg-gradient-to-r from-fuchsia-400 via-cyan-300 to-indigo-400 opacity-80"></div>
             </div>
 
-            
-
             <div class="mt-6 flex flex-wrap items-center justify-between gap-3">
               <NuxtLink
                 v-if="prev"
@@ -271,7 +254,6 @@ const illus = computed(() => theme.value!.illustrations)
 
         <!-- SIDEBAR -->
         <aside class="lg:col-span-4 space-y-4">
-          <!-- Sommaire sticky -->
           <div class="lg:sticky lg:top-24 space-y-4">
             <div class="rounded-3xl border border-white/10 bg-white/5 p-6">
               <h3 class="text-sm font-extrabold">Sommaire</h3>
@@ -279,6 +261,9 @@ const illus = computed(() => theme.value!.illustrations)
               <div class="mt-4 flex flex-col gap-2 text-sm">
                 <a href="#act-1" class="rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-zinc-200 hover:bg-white/5">
                   Act I — Diagnostic
+                </a>
+                <a href="#act-2" class="rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-zinc-200 hover:bg-white/5">
+                  Act II — Solutions
                 </a>
                 <a href="#act-3" class="rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-zinc-200 hover:bg-white/5">
                   Act III — Enchaîner
