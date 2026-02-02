@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref, computed, watch } from "vue";
+import BloomerHeader from "~/components/BloomerHeader.vue";
 
 const config = useRuntimeConfig();
 const api = config.public.apiBase;
@@ -63,7 +64,6 @@ const normalizeImages = (raw: any): string[] => {
 };
 
 const selectedImages = computed<string[]>(() => normalizeImages(selected.value?.images));
-
 const countImages = (c: DiyCreation) => normalizeImages(c.images).length;
 
 // ✅ fallback extension (jpg <-> png) si 404
@@ -78,12 +78,10 @@ const onImgError = (e: Event) => {
   const img = e.target as HTMLImageElement;
   if (!img || !img.src) return;
 
-  // évite la boucle infinie
   if (img.dataset.fallbackTried === "1") return;
   img.dataset.fallbackTried = "1";
 
-  // remplace src par extension alternative
-  const current = new URL(img.src).pathname; // /images/...
+  const current = new URL(img.src).pathname;
   img.src = swapExt(current);
 };
 
@@ -93,7 +91,7 @@ const stepIndex = ref(0);
 watch(
   () => selected.value?.id,
   () => {
-    stepIndex.value = 0; // reset quand on ouvre une nouvelle création
+    stepIndex.value = 0;
   }
 );
 
@@ -145,32 +143,32 @@ onBeforeUnmount(() => window.removeEventListener("keydown", onKey));
 </script>
 
 <template>
-  <div class="min-h-screen bg-gradient-to-b from-amber-50 to-orange-50 text-zinc-900">
-    <!-- NAV -->
-    <nav class="sticky top-0 z-50 border-b border-white/10 bg-zinc-950/60 backdrop-blur">
-      <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
-        <NuxtLink to="/" class="text-sm font-extrabold tracking-wide text-white">
-          BLOOMER
-        </NuxtLink>
+  <div class="min-h-screen bg-gradient-to-b from-amber-50 via-zinc-50 to-white text-zinc-900">
+    <BloomerHeader />
+
+    <!-- spacer header fixed (header est fixed) -->
+    <div class="h-[92px] sm:h-[104px]"></div>
+
+    <!-- HEADER -->
+    <header class="mx-auto max-w-6xl px-6 pt-10 pb-8">
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <p class="text-xs font-semibold tracking-[0.22em] text-zinc-500">CRÉATIONS · DIY</p>
+          <h1 class="mt-3 text-4xl font-extrabold leading-tight sm:text-5xl">
+            DIY <span class="text-amber-600">creations</span>
+          </h1>
+          <p class="mt-4 max-w-2xl text-zinc-700/80">
+            Hover = zoom premium. Clic = focus + galerie des étapes (slider).
+          </p>
+        </div>
 
         <NuxtLink
           to="/bloomer"
-          class="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-white hover:bg-white/15"
+          class="rounded-full border border-black/10 bg-white/70 px-4 py-2 text-sm font-semibold text-zinc-900 hover:bg-white"
         >
-          Retour Bloomer
+          Retour Bloomer →
         </NuxtLink>
       </div>
-    </nav>
-
-    <!-- HEADER -->
-    <header class="mx-auto max-w-6xl px-6 pt-12 pb-8">
-      <p class="text-xs tracking-[0.22em] text-zinc-700/70">CRÉATIONS · DIY</p>
-      <h1 class="mt-3 text-4xl font-extrabold leading-tight sm:text-5xl">
-        DIY <span class="text-emerald-600">creations</span>
-      </h1>
-      <p class="mt-4 max-w-2xl text-zinc-700/80">
-        Hover = petit zoom. Clic = focus 1er plan (pop) + galerie des étapes (screenshots).
-      </p>
     </header>
 
     <!-- CONTENT -->
@@ -192,83 +190,91 @@ onBeforeUnmount(() => window.removeEventListener("keydown", onKey));
           <a
             href="https://www.instagram.com/"
             target="_blank"
-            class="rounded-full bg-emerald-300/90 px-4 py-2 text-sm font-semibold text-zinc-950 hover:bg-emerald-300"
+            class="rounded-full bg-amber-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-amber-700"
           >
             Explorer Instagram →
           </a>
         </div>
 
         <!-- MASONRY -->
-        <div class="columns-1 gap-4 sm:columns-2 lg:columns-3 xl:columns-4">
+        <div class="columns-1 gap-5 sm:columns-2 lg:columns-3 xl:columns-4">
           <template v-for="c in creations || []" :key="c.id">
-            <article class="mb-4 break-inside-avoid">
+            <article class="mb-5 break-inside-avoid">
               <button
                 type="button"
                 @click="open(c)"
-                class="pin-card relative w-full overflow-hidden rounded-3xl bg-white/70 ring-1 ring-black/5"
+                class="
+                  group relative w-full overflow-hidden rounded-3xl bg-white shadow-[0_18px_40px_-30px_rgba(0,0,0,0.25)]
+                  ring-1 ring-black/5 transition duration-300
+                  hover:-translate-y-1 hover:scale-[1.03] hover:shadow-[0_26px_60px_-36px_rgba(0,0,0,0.35)]
+                "
               >
-                <div class="pin-media">
+                <!-- full image -->
+                <div class="relative">
                   <img
                     v-if="c.coverUrl"
                     :src="c.coverUrl"
                     :alt="c.title"
                     loading="lazy"
-                    class="pin-img h-auto w-full select-none object-cover"
+                    class="h-auto w-full select-none object-cover transition duration-500 ease-out group-hover:scale-[1.06]"
                     @error="onImgError"
                   />
                   <div v-else class="aspect-[4/3] w-full bg-black/5"></div>
-                </div>
 
-                <!-- Overlay hover -->
-                <div class="pin-overlay pointer-events-none absolute inset-0 opacity-0">
-                  <div class="absolute inset-0 bg-gradient-to-t from-zinc-950/90 via-zinc-950/25 to-transparent"></div>
+                  <!-- overlay cinema -->
+                  <div class="pointer-events-none absolute inset-0 bg-black/10"></div>
+                  <div
+                    class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent
+                           opacity-90 transition duration-300 group-hover:opacity-100"
+                  ></div>
 
+                  <!-- glow chaud subtil -->
+                  <div class="pointer-events-none absolute inset-0 opacity-0 transition duration-300 group-hover:opacity-100">
+                    <div class="absolute -inset-24 bg-[radial-gradient(circle,rgba(251,191,36,0.18),transparent_60%)]"></div>
+                  </div>
+
+                  <!-- content bottom -->
                   <div class="absolute left-0 right-0 bottom-0 p-4 text-left">
                     <p class="text-sm font-extrabold leading-snug text-white drop-shadow">
                       {{ c.title }}
                     </p>
 
-                    <div class="mt-1 flex flex-wrap items-center gap-2">
+                    <div class="mt-2 flex flex-wrap items-center gap-2">
                       <span
                         v-if="c.craft"
-                        class="rounded-full bg-emerald-300/15 px-2.5 py-1 text-[11px] font-semibold text-emerald-100 ring-1 ring-emerald-300/20"
+                        class="rounded-full bg-white/10 px-2.5 py-1 text-[11px] font-semibold text-white/90 ring-1 ring-white/15 backdrop-blur"
                       >
                         {{ prettyCraft(c.craft) }}
                       </span>
 
                       <span
                         v-if="c.creator"
-                        class="rounded-full bg-white/10 px-2.5 py-1 text-[11px] font-semibold text-white/85 ring-1 ring-white/10"
+                        class="rounded-full bg-white/10 px-2.5 py-1 text-[11px] font-semibold text-white/90 ring-1 ring-white/15 backdrop-blur"
                       >
                         {{ c.creator }}
                       </span>
 
                       <span
                         v-if="countImages(c)"
-                        class="rounded-full bg-white/10 px-2.5 py-1 text-[11px] font-semibold text-white/85 ring-1 ring-white/10"
+                        class="rounded-full bg-white/10 px-2.5 py-1 text-[11px] font-semibold text-white/90 ring-1 ring-white/15 backdrop-blur"
                       >
                         {{ countImages(c) }} étapes
                       </span>
                     </div>
 
-                    <div v-if="c.tags" class="mt-3 flex flex-wrap gap-2">
-                      <span
-                        v-for="t in splitTags(c.tags)"
-                        :key="t"
-                        class="rounded-full bg-white/10 px-2.5 py-1 text-[11px] font-semibold text-white/90 ring-1 ring-white/10"
-                      >
-                        #{{ t }}
-                      </span>
-                    </div>
-
-                    <p class="mt-3 text-[11px] text-white/60">Cliquer pour ouvrir la galerie</p>
+                    <p class="mt-3 text-[11px] text-white/65">
+                      Cliquer pour ouvrir la galerie →
+                    </p>
                   </div>
-                </div>
 
-                <div
-                  class="pin-badge absolute right-3 top-3 rounded-full bg-zinc-950/50 px-3 py-1 text-[11px] font-semibold text-white/80 ring-1 ring-white/10 opacity-0 backdrop-blur"
-                >
-                  Ouvrir
+                  <!-- action button -->
+                  <div
+                    class="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full border border-white/20 bg-white/10 text-white
+                           backdrop-blur transition duration-300 group-hover:scale-105 group-hover:bg-white/15"
+                    aria-hidden="true"
+                  >
+                    →
+                  </div>
                 </div>
               </button>
 
@@ -281,7 +287,7 @@ onBeforeUnmount(() => window.removeEventListener("keydown", onKey));
                   v-if="c.sourceUrl"
                   :href="c.sourceUrl"
                   target="_blank"
-                  class="text-xs font-semibold text-emerald-700 hover:underline"
+                  class="text-xs font-semibold text-amber-700 hover:underline"
                 >
                   Source →
                 </a>
@@ -289,17 +295,14 @@ onBeforeUnmount(() => window.removeEventListener("keydown", onKey));
             </article>
           </template>
 
-          <div
-            v-if="!hasCreations"
-            class="rounded-2xl bg-white/70 p-5 text-zinc-700 ring-1 ring-black/5"
-          >
+          <div v-if="!hasCreations" class="rounded-2xl bg-white/70 p-5 text-zinc-700 ring-1 ring-black/5">
             Aucune création en base. On fera le seed DIY après.
           </div>
         </div>
       </div>
     </main>
 
-    <!-- MODAL (pop) -->
+    <!-- MODAL (inchangée) -->
     <Teleport to="body">
       <div v-if="selected" class="click-modal" @click.self="close">
         <div class="click-modal__backdrop"></div>
@@ -347,61 +350,48 @@ onBeforeUnmount(() => window.removeEventListener("keydown", onKey));
           </div>
 
           <div class="click-modal__card">
-            <!-- ✅ Slider : 1 image à la fois + flèches -->
             <div v-if="hasSteps" class="slider">
-  <!-- LEFT PREVIEW -->
-  <button
-    type="button"
-    class="slider__peek slider__peek--left"
-    @click="prevStep"
-    :disabled="!canPrev"
-    aria-label="Étape précédente"
-  >
-    <img
-      :src="prevStepSrc"
-      alt=""
-      class="slider__peekImg"
-      loading="lazy"
-      @error="onImgError"
-    />
-    <span class="slider__chev slider__chev--left">‹</span>
-  </button>
+              <!-- LEFT PREVIEW -->
+              <button
+                type="button"
+                class="slider__peek slider__peek--left"
+                @click="prevStep"
+                :disabled="!canPrev"
+                aria-label="Étape précédente"
+              >
+                <img :src="prevStepSrc" alt="" class="slider__peekImg" loading="lazy" @error="onImgError" />
+                <span class="slider__chev slider__chev--left">‹</span>
+              </button>
 
-  <!-- CENTER (CURRENT) -->
-  <div class="slider__stage">
-    <img
-      :src="currentStepSrc"
-      :alt="`${selected.title} — étape ${stepIndex + 1}`"
-      class="slider__img"
-      loading="lazy"
-      @error="onImgError"
-    />
-    
-    <div class="slider__meta">
-      Étape <span class="font-semibold">{{ stepIndex + 1 }}</span>
-      <span class="opacity-50">/</span>
-      <span class="font-semibold">{{ stepCount }}</span>
-    </div>
-  </div>
+              <!-- CENTER -->
+              <div class="slider__stage">
+                <img
+                  :src="currentStepSrc"
+                  :alt="`${selected.title} — étape ${stepIndex + 1}`"
+                  class="slider__img"
+                  loading="lazy"
+                  @error="onImgError"
+                />
 
-  <!-- RIGHT PREVIEW -->
-  <button
-    type="button"
-    class="slider__peek slider__peek--right"
-    @click="nextStep"
-    :disabled="!canNext"
-    aria-label="Étape suivante"
-  >
-    <img
-      :src="nextStepSrc"
-      alt=""
-      class="slider__peekImg"
-      loading="lazy"
-      @error="onImgError"
-    />
-    <span class="slider__chev slider__chev--right">›</span>
-  </button>
-</div>
+                <div class="slider__meta">
+                  Étape <span class="font-semibold">{{ stepIndex + 1 }}</span>
+                  <span class="opacity-50">/</span>
+                  <span class="font-semibold">{{ stepCount }}</span>
+                </div>
+              </div>
+
+              <!-- RIGHT PREVIEW -->
+              <button
+                type="button"
+                class="slider__peek slider__peek--right"
+                @click="nextStep"
+                :disabled="!canNext"
+                aria-label="Étape suivante"
+              >
+                <img :src="nextStepSrc" alt="" class="slider__peekImg" loading="lazy" @error="onImgError" />
+                <span class="slider__chev slider__chev--right">›</span>
+              </button>
+            </div>
 
             <div v-else class="p-6 text-sm text-white/70">
               Pas d’images d’étapes pour cette création.
@@ -431,28 +421,7 @@ onBeforeUnmount(() => window.removeEventListener("keydown", onKey));
 </template>
 
 <style scoped>
-/* ---- HOVER (cards) ---- */
-.pin-card {
-  transform: translateZ(0);
-  transition: transform 250ms ease, box-shadow 250ms ease, background-color 250ms ease;
-}
-.pin-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.18);
-}
-.pin-media { overflow: hidden; }
-.pin-img {
-  display: block;
-  transform: scale(1);
-  transition: transform 700ms ease-out;
-  will-change: transform;
-}
-.pin-card:hover .pin-img { transform: scale(1.12); }
-.pin-overlay { transition: opacity 220ms ease; }
-.pin-card:hover .pin-overlay { opacity: 1; }
-.pin-card:hover .pin-badge { opacity: 1; transition: opacity 220ms ease; }
-
-/* ---- MODAL ---- */
+/* ---- MODAL + SLIDER : inchangés ---- */
 .click-modal {
   position: fixed; inset: 0; z-index: 9999;
   display: flex; align-items: center; justify-content: center;
@@ -489,7 +458,6 @@ onBeforeUnmount(() => window.removeEventListener("keydown", onKey));
   border: 1px solid rgba(255, 255, 255, 0.10);
 }
 
-/* ---- SLIDER ---- */
 .slider {
   position: relative;
   display: grid;
@@ -499,46 +467,35 @@ onBeforeUnmount(() => window.removeEventListener("keydown", onKey));
   padding: 18px;
 }
 
-/* centre */
 .slider__stage {
-position: relative;
-border-radius: 18px;
-overflow: hidden;
-background: rgba(255, 255, 255, 0.06);
-border: 1px solid rgba(255, 255, 255, 0.10);
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.10);
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-/* 🔥 clé du fix */
-display: flex;
-align-items: center;
-justify-content: center;
+  padding: 8px;
 
-
-padding: 8px;
-
-
-/* empêche le conteneur d'être trop large */
-max-width: 420px;
-margin-inline: auto;
+  max-width: 420px;
+  margin-inline: auto;
 }
 .slider__img {
-width: auto;
-height: 62vh; /* hauteur dominante */
-max-height: 68vh;
-max-width: 100%;
-
-
-object-fit: contain;
-border-radius: 14px;
+  width: auto;
+  height: 62vh;
+  max-height: 68vh;
+  max-width: 100%;
+  object-fit: contain;
+  border-radius: 14px;
 }
 
 @media (min-width: 1024px) {
-.slider__stage {
-max-width: 380px;
-}
+  .slider__stage { max-width: 380px; }
 }
 
-/* meta */
 .slider__meta {
   position: absolute;
   bottom: 10px;
@@ -552,7 +509,6 @@ max-width: 380px;
   backdrop-filter: blur(8px);
 }
 
-/* peeks */
 .slider__peek {
   position: relative;
   height: min(52vh, 360px);
@@ -565,14 +521,8 @@ max-width: 380px;
   padding: 0;
   transition: transform 160ms ease, opacity 160ms ease, filter 160ms ease;
 }
-.slider__peek:hover {
-  transform: scale(1.02);
-}
-.slider__peek:disabled {
-  opacity: 0.35;
-  cursor: not-allowed;
-  transform: none;
-}
+.slider__peek:hover { transform: scale(1.02); }
+.slider__peek:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
 
 .slider__peekImg {
   width: 100%;
@@ -583,7 +533,6 @@ max-width: 380px;
   opacity: 0.85;
 }
 
-/* petit voile pour lisibilité */
 .slider__peek::after {
   content: "";
   position: absolute;
@@ -596,7 +545,6 @@ max-width: 380px;
   );
 }
 
-/* chevrons */
 .slider__chev {
   position: absolute;
   top: 50%;
@@ -617,14 +565,8 @@ max-width: 380px;
 .slider__chev--left { left: 10px; }
 .slider__chev--right { right: 10px; }
 
-/* responsive : sur mobile, on masque les peeks */
 @media (max-width: 640px) {
-  .slider {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-  .slider__peek {
-    display: none;
-  }
+  .slider { grid-template-columns: 1fr; gap: 10px; }
+  .slider__peek { display: none; }
 }
 </style>

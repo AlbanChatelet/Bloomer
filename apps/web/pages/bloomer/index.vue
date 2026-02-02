@@ -40,26 +40,84 @@ const cards: BloomerCard[] = [
     image: "/images/shows/cover.jpg",
   },
 ]
+
+const bloomerPng = "/images/bloomer.png"
+const bloomerCover = "/images/BloomerCover.png"
 </script>
 
 <template>
   <div class="min-h-screen bg-gradient-to-b from-amber-50 via-zinc-50 to-white text-zinc-900">
     <BloomerHeader />
 
-    <!-- spacer header fixed -->
-    <div class="h-[92px] sm:h-[104px]"></div>
+    <!-- PNG flottant -->
+    <ClientOnly>
+      <Teleport to="body">
+        <img
+          :src="bloomerPng"
+          alt="Bloomer"
+          class="
+            fixed z-[99999] opacity-95 transition-all duration-500 ease-out drop-shadow-2xl
+            bottom-0 right-4 w-[120px]
+            sm:bottom-0 sm:right-6 sm:w-[180px]
+            lg:bottom-0 lg:right-16 lg:w-[300px]
+            lg:hover:scale-[1.20]
+            lg:hover:drop-shadow-[0_30px_60px_rgba(0,0,0,0.65)]
+            animate-[float_6s_ease-in-out_infinite]
+          "
+        />
+      </Teleport>
+    </ClientOnly>
 
-    <!-- HERO -->
-    <section class="mx-auto max-w-6xl px-6 pt-12 pb-10">
-      <p class="text-xs font-semibold tracking-[0.35em] text-zinc-500">BLOOMER</p>
+    <!-- HERO COVER FULL TOP -->
+    <section class="relative">
+      <!-- ✅ on peut aussi monter un peu la hauteur si tu veux encore + immersion -->
+      <div class="relative h-[520px] w-full overflow-hidden sm:h-[660px]">
+        <img
+          :src="bloomerCover"
+          alt="Bloomer cover"
+          class="h-full w-full object-cover"
+          loading="eager"
+        />
 
-      <h1 class="mt-4 text-4xl font-extrabold leading-tight sm:text-5xl">
-        Culture visuelle, nostalgie, <span class="text-amber-600">goût</span>.
-      </h1>
+        <!-- Lisibilité du texte (léger) -->
+        <div class="absolute inset-0 bg-black/15"></div>
 
-      <p class="mt-5 max-w-2xl text-base leading-relaxed text-zinc-700">
-        Un hub éditorial lumineux : tu choisis une section, tu explores. Une vibe chaude pour contraster avec DOOMER.
-      </p>
+        <!-- ✅ FONDU PROGRESSIF (plus bas + plus doux) -->
+        <!-- couche 1 : très longue, feather -->
+        <div
+          class="pointer-events-none absolute inset-x-0 bottom-0 h-[260px] sm:h-[320px]
+                 bg-gradient-to-b from-transparent via-amber-50/30 to-amber-50/80"
+        ></div>
+
+        <!-- couche 2 : finition pour matcher parfaitement le fond -->
+        <div
+          class="pointer-events-none absolute inset-x-0 bottom-0 h-[140px] sm:h-[180px]
+                 bg-gradient-to-b from-transparent via-amber-50/85 to-amber-50"
+        ></div>
+
+        <!-- Texte PAR-DESSUS -->
+        <div class="absolute inset-0">
+          <div class="mx-auto flex h-full max-w-6xl items-end px-6 pb-12 pt-24 sm:pb-14 sm:pt-28">
+            <div class="max-w-2xl">
+              <p class="text-xs font-semibold tracking-[0.35em] text-white/85 drop-shadow">
+                BLOOMER
+              </p>
+
+              <h1 class="mt-4 text-4xl font-extrabold leading-tight text-white drop-shadow sm:text-5xl">
+                Culture visuelle, nostalgie, <span class="text-amber-200">goût</span>.
+              </h1>
+
+              <p class="mt-5 text-base leading-relaxed text-white/90 drop-shadow">
+                Un hub éditorial lumineux : tu choisis une section, tu explores. Une vibe chaude pour contraster avec DOOMER.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ✅ respiration + “fin” de fondu encore plus naturelle -->
+      <!-- ce bloc prolonge le fondu dans la page -->
+      <div class="h-10 sm:h-14 bg-amber-50"></div>
     </section>
 
     <!-- CARDS -->
@@ -71,7 +129,6 @@ const cards: BloomerCard[] = [
           :to="c.to"
           class="group relative overflow-hidden rounded-3xl bg-white shadow-[0_22px_40px_-28px_rgba(0,0,0,0.28)] ring-1 ring-black/5 transition duration-300 hover:-translate-y-1 hover:scale-[1.03] hover:shadow-[0_28px_55px_-34px_rgba(0,0,0,0.35)]"
         >
-          <!-- image full -->
           <img
             :src="c.image"
             :alt="c.title"
@@ -79,16 +136,13 @@ const cards: BloomerCard[] = [
             loading="lazy"
           />
 
-          <!-- overlay : léger global + bas sombre (mais pas blanc chelou) -->
           <div class="absolute inset-0 bg-black/10"></div>
           <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent"></div>
 
-          <!-- glow chaud, très subtil -->
           <div class="pointer-events-none absolute inset-0 opacity-0 transition duration-300 group-hover:opacity-100">
             <div class="absolute -inset-24 bg-[radial-gradient(circle,rgba(251,191,36,0.18),transparent_60%)]"></div>
           </div>
 
-          <!-- content bottom -->
           <div class="relative flex h-[320px] flex-col justify-end p-6">
             <div class="flex items-center justify-between gap-3">
               <h2 class="text-lg font-bold tracking-wide text-white">
@@ -111,10 +165,13 @@ const cards: BloomerCard[] = [
           </div>
         </NuxtLink>
       </div>
-
-      <p class="mt-12 text-xs text-zinc-500">
-        Remplace les covers par tes vrais chemins dans <span class="text-zinc-800">/public/images/…</span>
-      </p>
     </main>
   </div>
 </template>
+
+<style scoped>
+@keyframes float {
+  0%, 100% { transform: translateY(0) }
+  50% { transform: translateY(-6px) }
+}
+</style>
