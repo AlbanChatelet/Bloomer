@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref, computed, watch } from "vue";
+import { onBeforeUnmount, onMounted, ref, computed, watch, nextTick } from "vue";
 import BloomerHeader from "~/components/BloomerHeader.vue";
 
 const config = useRuntimeConfig();
@@ -64,7 +64,6 @@ const normalizeImages = (raw: any): string[] => {
 };
 
 const selectedImages = computed<string[]>(() => normalizeImages(selected.value?.images));
-const countImages = (c: DiyCreation) => normalizeImages(c.images).length;
 
 // ✅ fallback extension (jpg <-> png) si 404
 const swapExt = (url: string) => {
@@ -140,34 +139,120 @@ const onKey = (e: KeyboardEvent) => {
 
 onMounted(() => window.addEventListener("keydown", onKey));
 onBeforeUnmount(() => window.removeEventListener("keydown", onKey));
+
+/* -----------------------------
+   CAROUSEL LOOP (infinite)
+-------------------------------- */
+const railRef = ref<HTMLElement | null>(null);
+const isAdjusting = ref(false);
+
+const baseCreations = computed(() => creations.value || []);
+
+/**
+ * On duplique 3x pour simuler un loop:
+ * [A B C D E] [A B C D E] [A B C D E]
+ * On positionne le scroll au milieu (2e bloc).
+ */
+const loopCreations = computed(() => {
+  const arr = baseCreations.value;
+  if (!arr.length) return [];
+  return [...arr, ...arr, ...arr];
+});
+
+const centerRail = async () => {
+  const el = railRef.value;
+  if (!el) return;
+  await nextTick();
+
+  // On se met au début du "bloc du milieu"
+  const segment = el.scrollWidth / 3;
+  el.scrollLeft = segment;
+};
+
+const onRailScroll = () => {
+  const el = railRef.value;
+  if (!el || isAdjusting.value) return;
+
+  const segment = el.scrollWidth / 3;
+  const left = el.scrollLeft;
+
+  // Si on sort trop du bloc du milieu, on recentre sans que ça se voie
+  // Zone "safe" ~ entre 0.5*segment et 1.5*segment
+  if (left < segment * 0.5) {
+    isAdjusting.value = true;
+    el.scrollLeft = left + segment;
+    requestAnimationFrame(() => (isAdjusting.value = false));
+  } else if (left > segment * 1.5) {
+    isAdjusting.value = true;
+    el.scrollLeft = left - segment;
+    requestAnimationFrame(() => (isAdjusting.value = false));
+  }
+};
+
+const scrollByCards = (dir: 1 | -1) => {
+  const el = railRef.value;
+  if (!el) return;
+
+  const first = el.querySelector<HTMLElement>("[data-card]");
+  const cardW = first?.offsetWidth ?? 320;
+  const gap = 20; // gap-5
+  el.scrollBy({ left: dir * (cardW + gap), behavior: "smooth" });
+};
+
+const scrollPrev = () => scrollByCards(-1);
+const scrollNext = () => scrollByCards(1);
+
+// quand les créations arrivent (fetch), on centre le rail
+watch(
+  () => baseCreations.value.length,
+  async (n) => {
+    if (!n) return;
+    await centerRail();
+  },
+  { immediate: true }
+);
+
+onMounted(async () => {
+  await centerRail();
+});
 </script>
 
 <template>
   <div class="min-h-screen bg-gradient-to-b from-amber-50 via-zinc-50 to-white text-zinc-900">
     <BloomerHeader />
 
-    <!-- spacer header fixed (header est fixed) -->
+    <!-- spacer header fixed -->
     <div class="h-[92px] sm:h-[104px]"></div>
 
     <!-- HEADER -->
     <header class="mx-auto max-w-6xl px-6 pt-10 pb-8">
-      <div class="flex flex-wrap items-center justify-between gap-4">
-        <div>
+      <div class="flex flex-wrap items-end justify-between gap-4">
+        <div class="max-w-2xl">
           <p class="text-xs font-semibold tracking-[0.22em] text-zinc-500">CRÉATIONS · DIY</p>
           <h1 class="mt-3 text-4xl font-extrabold leading-tight sm:text-5xl">
             DIY <span class="text-amber-600">creations</span>
           </h1>
-          <p class="mt-4 max-w-2xl text-zinc-700/80">
-            Hover = zoom premium. Clic = focus + galerie des étapes (slider).
+          <p class="mt-4 text-zinc-700/80">
+            Sélection de créations. Clique pour ouvrir la galerie (étapes).
           </p>
         </div>
 
-        <NuxtLink
-          to="/bloomer"
-          class="rounded-full border border-black/10 bg-white/70 px-4 py-2 text-sm font-semibold text-zinc-900 hover:bg-white"
-        >
-          Retour Bloomer →
-        </NuxtLink>
+        <div class="flex items-center gap-2">
+          <NuxtLink
+            to="/bloomer"
+            class="rounded-full border border-black/10 bg-white/70 px-4 py-2 text-sm font-semibold text-zinc-900 hover:bg-white"
+          >
+            Retour Bloomer →
+          </NuxtLink>
+
+          <a
+            href="https://www.instagram.com/"
+            target="_blank"
+            class="rounded-full bg-amber-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-amber-700"
+          >
+            Instagram →
+          </a>
+        </div>
       </div>
     </header>
 
@@ -182,127 +267,155 @@ onBeforeUnmount(() => window.removeEventListener("keydown", onKey));
       </div>
 
       <div v-else>
-        <div class="mb-6 flex items-end justify-between gap-6">
+        <div class="mb-5 flex items-center justify-between gap-4">
           <p class="text-sm text-zinc-700/70">
-            {{ (creations || []).length }} créations
+            {{ (baseCreations || []).length }} créations
           </p>
 
-          <a
-            href="https://www.instagram.com/"
-            target="_blank"
-            class="rounded-full bg-amber-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-amber-700"
-          >
-            Explorer Instagram →
-          </a>
+          <!-- petites flèches desktop en plus (optionnel) -->
+          <div class="hidden sm:flex items-center gap-2">
+            <button
+              type="button"
+              @click="scrollPrev"
+              class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-black/10 bg-white/70 text-zinc-900 hover:bg-white"
+              aria-label="Précédent"
+            >
+              ‹
+            </button>
+            <button
+              type="button"
+              @click="scrollNext"
+              class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-black/10 bg-white/70 text-zinc-900 hover:bg-white"
+              aria-label="Suivant"
+            >
+              ›
+            </button>
+          </div>
         </div>
 
-        <!-- MASONRY -->
-        <div class="columns-1 gap-5 sm:columns-2 lg:columns-3 xl:columns-4">
-          <template v-for="c in creations || []" :key="c.id">
-            <article class="mb-5 break-inside-avoid">
-              <button
-                type="button"
-                @click="open(c)"
-                class="
-                  group relative w-full overflow-hidden rounded-3xl bg-white shadow-[0_18px_40px_-30px_rgba(0,0,0,0.25)]
-                  ring-1 ring-black/5 transition duration-300
-                  hover:-translate-y-1 hover:scale-[1.03] hover:shadow-[0_26px_60px_-36px_rgba(0,0,0,0.35)]
-                "
-              >
-                <!-- full image -->
-                <div class="relative">
-                  <img
-                    v-if="c.coverUrl"
-                    :src="c.coverUrl"
-                    :alt="c.title"
-                    loading="lazy"
-                    class="h-auto w-full select-none object-cover transition duration-500 ease-out group-hover:scale-[1.06]"
-                    @error="onImgError"
-                  />
-                  <div v-else class="aspect-[4/3] w-full bg-black/5"></div>
+        <!-- CAROUSEL -->
+        <div class="relative">
+          <!-- ✅ GROSSES FLÈCHES AU MILIEU (plus visibles) -->
+          <button
+            type="button"
+            @click="scrollPrev"
+            aria-label="Précédent"
+            class="
+              absolute left-2 top-1/2 z-20 -translate-y-1/2
+              grid h-14 w-14 place-items-center rounded-full
+              border border-black/10 bg-white/70 text-zinc-900
+              shadow-[0_18px_45px_-25px_rgba(0,0,0,0.35)]
+              backdrop-blur
+              transition duration-200
+              hover:bg-white hover:scale-110 hover:shadow-[0_28px_70px_-35px_rgba(0,0,0,0.45)]
+              active:scale-100
+            "
+          >
+            <span class="text-3xl leading-none">‹</span>
+          </button>
 
-                  <!-- overlay cinema -->
-                  <div class="pointer-events-none absolute inset-0 bg-black/10"></div>
-                  <div
-                    class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent
-                           opacity-90 transition duration-300 group-hover:opacity-100"
-                  ></div>
+          <button
+            type="button"
+            @click="scrollNext"
+            aria-label="Suivant"
+            class="
+              absolute right-2 top-1/2 z-20 -translate-y-1/2
+              grid h-14 w-14 place-items-center rounded-full
+              border border-black/10 bg-white/70 text-zinc-900
+              shadow-[0_18px_45px_-25px_rgba(0,0,0,0.35)]
+              backdrop-blur
+              transition duration-200
+              hover:bg-white hover:scale-110 hover:shadow-[0_28px_70px_-35px_rgba(0,0,0,0.45)]
+              active:scale-100
+            "
+          >
+            <span class="text-3xl leading-none">›</span>
+          </button>
 
-                  <!-- glow chaud subtil -->
-                  <div class="pointer-events-none absolute inset-0 opacity-0 transition duration-300 group-hover:opacity-100">
-                    <div class="absolute -inset-24 bg-[radial-gradient(circle,rgba(251,191,36,0.18),transparent_60%)]"></div>
-                  </div>
+          <!-- rail -->
+          <div
+            ref="railRef"
+            @scroll="onRailScroll"
+            class="
+              hide-scrollbar flex gap-5 overflow-x-auto scroll-smooth pb-3
+              snap-x snap-mandatory
+              px-16
+            "
+          >
+            <button
+              v-for="(c, idx) in loopCreations"
+              :key="`${c.id}-${idx}`"
+              type="button"
+              @click="open(c)"
+              data-card
+              class="
+  group relative snap-start overflow-hidden rounded-3xl bg-white
+  shadow-[0_22px_40px_-28px_rgba(0,0,0,0.28)] ring-1 ring-black/5
+  transition duration-300 hover:-translate-y-1 hover:scale-[1.03]
+  focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/50
+  flex-none
 
-                  <!-- content bottom -->
-                  <div class="absolute left-0 right-0 bottom-0 p-4 text-left">
-                    <p class="text-sm font-extrabold leading-snug text-white drop-shadow">
-                      {{ c.title }}
-                    </p>
+  w-[86vw] min-w-[260px]
+  sm:w-[48vw] sm:min-w-[320px]
+  md:w-[36vw] md:min-w-[340px]
+  lg:w-[24%] lg:min-w-[260px]
+"
 
-                    <div class="mt-2 flex flex-wrap items-center gap-2">
-                      <span
-                        v-if="c.craft"
-                        class="rounded-full bg-white/10 px-2.5 py-1 text-[11px] font-semibold text-white/90 ring-1 ring-white/15 backdrop-blur"
-                      >
-                        {{ prettyCraft(c.craft) }}
-                      </span>
+            >
+              <div class="relative h-[420px] w-full sm:h-[460px] lg:h-[420px]">
+                <img
+                  v-if="c.coverUrl"
+                  :src="c.coverUrl"
+                  :alt="c.title"
+                  class="absolute inset-0 h-full w-full object-cover transition duration-500 ease-out group-hover:scale-[1.06]"
+                  loading="lazy"
+                  @error="onImgError"
+                />
+                <div v-else class="absolute inset-0 bg-black/5"></div>
 
-                      <span
-                        v-if="c.creator"
-                        class="rounded-full bg-white/10 px-2.5 py-1 text-[11px] font-semibold text-white/90 ring-1 ring-white/15 backdrop-blur"
-                      >
-                        {{ c.creator }}
-                      </span>
+                <!-- overlay clean (pas de tags, pas de counts) -->
+                <div class="absolute inset-0 bg-black/10"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent"></div>
 
-                      <span
-                        v-if="countImages(c)"
-                        class="rounded-full bg-white/10 px-2.5 py-1 text-[11px] font-semibold text-white/90 ring-1 ring-white/15 backdrop-blur"
-                      >
-                        {{ countImages(c) }} étapes
-                      </span>
-                    </div>
-
-                    <p class="mt-3 text-[11px] text-white/65">
-                      Cliquer pour ouvrir la galerie →
-                    </p>
-                  </div>
-
-                  <!-- action button -->
-                  <div
-                    class="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full border border-white/20 bg-white/10 text-white
-                           backdrop-blur transition duration-300 group-hover:scale-105 group-hover:bg-white/15"
-                    aria-hidden="true"
-                  >
-                    →
-                  </div>
+                <!-- bottom text (minimal) -->
+                <div class="absolute left-0 right-0 bottom-0 p-5 text-left">
+                  <p class="text-base font-extrabold leading-snug text-white drop-shadow">
+                    {{ c.title }}
+                  </p>
+                  <p class="mt-1 text-xs font-semibold text-white/75">
+                    <span v-if="c.creator">{{ c.creator }}</span>
+                    <span v-if="c.creator && c.craft" class="opacity-50"> · </span>
+                    <span v-if="c.craft">{{ prettyCraft(c.craft) }}</span>
+                  </p>
                 </div>
-              </button>
 
-              <div class="mt-2 flex items-center justify-between px-1">
-                <p class="truncate text-xs text-zinc-700/70">
-                  {{ c.craft ? prettyCraft(c.craft) : "—" }}
-                </p>
-
-                <a
-                  v-if="c.sourceUrl"
-                  :href="c.sourceUrl"
-                  target="_blank"
-                  class="text-xs font-semibold text-amber-700 hover:underline"
+                <!-- arrow -->
+                <div
+                  class="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full border border-white/20 bg-white/10 text-white backdrop-blur transition duration-300 group-hover:scale-105 group-hover:bg-white/15"
+                  aria-hidden="true"
                 >
-                  Source →
-                </a>
-              </div>
-            </article>
-          </template>
+                  →
+                </div>
 
-          <div v-if="!hasCreations" class="rounded-2xl bg-white/70 p-5 text-zinc-700 ring-1 ring-black/5">
-            Aucune création en base. On fera le seed DIY après.
+                <!-- subtle glow -->
+                <div class="pointer-events-none absolute inset-0 opacity-0 transition duration-300 group-hover:opacity-100">
+                  <div class="absolute -inset-24 bg-[radial-gradient(circle,rgba(251,191,36,0.18),transparent_60%)]"></div>
+                </div>
+              </div>
+            </button>
+
+            <div
+              v-if="!hasCreations"
+              class="rounded-2xl bg-white/70 p-5 text-zinc-700 ring-1 ring-black/5"
+            >
+              Aucune création en base.
+            </div>
           </div>
         </div>
       </div>
     </main>
 
-    <!-- MODAL (inchangée) -->
+    <!-- MODAL -->
     <Teleport to="body">
       <div v-if="selected" class="click-modal" @click.self="close">
         <div class="click-modal__backdrop"></div>
@@ -351,7 +464,6 @@ onBeforeUnmount(() => window.removeEventListener("keydown", onKey));
 
           <div class="click-modal__card">
             <div v-if="hasSteps" class="slider">
-              <!-- LEFT PREVIEW -->
               <button
                 type="button"
                 class="slider__peek slider__peek--left"
@@ -363,7 +475,6 @@ onBeforeUnmount(() => window.removeEventListener("keydown", onKey));
                 <span class="slider__chev slider__chev--left">‹</span>
               </button>
 
-              <!-- CENTER -->
               <div class="slider__stage">
                 <img
                   :src="currentStepSrc"
@@ -380,7 +491,6 @@ onBeforeUnmount(() => window.removeEventListener("keydown", onKey));
                 </div>
               </div>
 
-              <!-- RIGHT PREVIEW -->
               <button
                 type="button"
                 class="slider__peek slider__peek--right"
@@ -397,6 +507,7 @@ onBeforeUnmount(() => window.removeEventListener("keydown", onKey));
               Pas d’images d’étapes pour cette création.
             </div>
 
+            <!-- tags dans la modal uniquement -->
             <div v-if="selected.tags" class="px-5 pb-5">
               <div class="mt-4 flex flex-wrap gap-2">
                 <span
@@ -421,7 +532,16 @@ onBeforeUnmount(() => window.removeEventListener("keydown", onKey));
 </template>
 
 <style scoped>
-/* ---- MODAL + SLIDER : inchangés ---- */
+/* hide scrollbar */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ---- MODAL ---- */
 .click-modal {
   position: fixed; inset: 0; z-index: 9999;
   display: flex; align-items: center; justify-content: center;
@@ -458,6 +578,7 @@ onBeforeUnmount(() => window.removeEventListener("keydown", onKey));
   border: 1px solid rgba(255, 255, 255, 0.10);
 }
 
+/* ---- SLIDER ---- */
 .slider {
   position: relative;
   display: grid;
@@ -473,13 +594,10 @@ onBeforeUnmount(() => window.removeEventListener("keydown", onKey));
   overflow: hidden;
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.10);
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   padding: 8px;
-
   max-width: 420px;
   margin-inline: auto;
 }
@@ -491,7 +609,6 @@ onBeforeUnmount(() => window.removeEventListener("keydown", onKey));
   object-fit: contain;
   border-radius: 14px;
 }
-
 @media (min-width: 1024px) {
   .slider__stage { max-width: 380px; }
 }
@@ -566,7 +683,12 @@ onBeforeUnmount(() => window.removeEventListener("keydown", onKey));
 .slider__chev--right { right: 10px; }
 
 @media (max-width: 640px) {
-  .slider { grid-template-columns: 1fr; gap: 10px; }
-  .slider__peek { display: none; }
+  .slider {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .slider__peek {
+    display: none;
+  }
 }
 </style>
