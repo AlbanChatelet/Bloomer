@@ -143,29 +143,7 @@ const doomerPng = computed(() => joinURL(config.app.baseURL, "images/doomer.png"
     </section>
 
     <!-- DOOMER PNG -->
-    <ClientOnly>
-  <Teleport to="body">
-    <img
-      :src="doomerPng"
-      alt="Doomer"
-      class="
-        fixed z-[99999] opacity-95 transition-all duration-500 ease-out drop-shadow-2xl
-
-        /* mobile */
-        bottom-0 right-4 w-[120px]
-
-        /* tablet */
-        sm:bottom-0 sm:right-6 sm:w-[180px]
-
-        /* desktop */
-        lg:bottom-0 lg:right-16 lg:w-[300px]
-        lg:hover:scale-[1.20]
-        lg:hover:drop-shadow-[0_30px_60px_rgba(0,0,0,0.65)]
-      "
-    />
-  </Teleport>
-</ClientOnly>
-
+    
 
     <!-- THEMES -->
     <section id="themes" class="mx-auto max-w-6xl px-6 py-2 md:py-10">
