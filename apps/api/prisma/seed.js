@@ -48,44 +48,7 @@ async function main() {
     ],
   });
 
-  // 📺 EPISODES CULTES
-  await prisma.showEpisode.createMany({
-    data: [
-      {
-        show: "Simpsons",
-        title: "Marge vs. the Monorail",
-        season: 4,
-        episode: 12,
-        communityRank: 1,
-        linkUrl: "https://www.simpsonspark.com/episodes/marge-vs-the-monorail/",
-        note: "Humour absurde et critique parfaite.",
-      },
-      {
-        show: "Simpsons",
-        title: "Homer Badman",
-        season: 6,
-        episode: 9,
-        communityRank: 2,
-        note: "Toujours actuel sur les médias.",
-      },
-      {
-        show: "South Park",
-        title: "Make Love, Not Warcraft",
-        season: 10,
-        episode: 8,
-        communityRank: 1,
-        note: "Un épisode culte de la culture geek.",
-      },
-      {
-        show: "South Park",
-        title: "Scott Tenorman Must Die",
-        season: 5,
-        episode: 4,
-        communityRank: 2,
-        note: "Un des épisodes les plus marquants.",
-      },
-    ],
-  });
+
 
   // 🌇 AESTHETIC
   await prisma.aestheticPost.createMany({
@@ -642,67 +605,101 @@ async function main() {
 
   await prisma.showEpisode.createMany({
     data: [
-      // -------- SIMPSONS (SimpsonsPark) --------
+      // -------- SIMPSONS --------
+      {
+        show: "Simpsons",
+        title: "Marge vs. the Monorail",
+        season: 4,
+        episode: 12,
+        communityRank: 1,
+        linkUrl: "https://www.simpsonspark.com/episodes/le_monorail",
+        note: "Un projet absurde qui tourne au chaos total.",
+        cover: "/images/shows/marge_vs_the_monorail.jpg",
+      },
+      {
+        show: "Simpsons",
+        title: "Homer Badman",
+        season: 6,
+        episode: 9,
+        communityRank: 2,
+        linkUrl: "https://www.simpsonspark.com/episodes/pervers_homer",
+        note: "Médias, rumeurs et tribunal populaire : toujours actuel.",
+        cover: "/images/shows/homer_badman.jpg",
+      },
       {
         show: "Simpsons",
         title: "Qui a tiré sur Mr Burns ? (Partie 1)",
         season: 6,
         episode: 25,
-        communityRank: 1,
+        communityRank: 3,
         linkUrl:
           "https://www.simpsonspark.com/episodes/qui_a_tire_sur_mr_burns_partie_1",
+        note: "Mystère culte et suspense parfait pour binge.",
+        cover: "/images/shows/qui_a_tire_sur_mr_burns.jpg",
       },
       {
         show: "Simpsons",
         title: "Homer, le baron de la bière",
         season: 8,
         episode: 18,
-        communityRank: 2,
+        communityRank: 4,
         linkUrl:
           "https://www.simpsonspark.com/episodes/homer_le_baron_de_la_biere",
+        note: "Une idée géniale… jusqu’au point de non-retour.",
+        cover: "/images/shows/homer_baron.jpg",
       },
       {
         show: "Simpsons",
         title: "Homer contre New York",
         season: 9,
         episode: 1,
-        communityRank: 3,
+        communityRank: 5,
         linkUrl: "https://www.simpsonspark.com/episodes/homer_contre_new_york",
+        note: "Road-trip urbain : stress, galères et moments mythiques.",
+        cover: "/images/shows/homer_contre_new_york.jpg",
       },
       {
         show: "Simpsons",
         title: "Homer le grand",
         season: 6,
         episode: 12,
-        communityRank: 4,
+        communityRank: 6,
         linkUrl: "https://www.simpsonspark.com/episodes/homer_le_grand",
+        note: "Société secrète, rituels ridicules et punchlines.",
+        cover: "/images/shows/homer_le_grand.webp",
       },
       {
         show: "Simpsons",
         title: "Lac Terreur",
         season: 5,
         episode: 2,
-        communityRank: 5,
+        communityRank: 7,
         linkUrl: "https://www.simpsonspark.com/episodes/lac_terreur",
+        note: "Parodie tendue et hilarante avec un méchant iconique.",
+        cover: "/images/shows/lac_terreur.jpg",
       },
       {
         show: "Simpsons",
         title: "L'ennemi d'Homer",
         season: 8,
         episode: 23,
-        communityRank: 6,
+        communityRank: 8,
         linkUrl: "https://www.simpsonspark.com/episodes/l_ennemi_d_homer",
+        note: "Quand le réel se fracasse contre l’absurde d’Homer.",
+        cover: "/images/shows/ennemi_homer.webp",
       },
       {
         show: "Simpsons",
         title: "Simpson Horror Show V",
         season: 6,
         episode: 6,
-        communityRank: 7,
+        communityRank: 9,
         linkUrl: "https://www.simpsonspark.com/episodes/simpson_horror_show_v",
+        note: "Spécial horreur : trois segments, zéro temps mort.",
+        cover: "/images/shows/horror_show_v.jpg",
       },
 
-      // -------- SOUTH PARK (Fandom FR) --------
+      // -------- SOUTH PARK --------
       {
         show: "South Park",
         title: "Casa Bonita",
@@ -710,6 +707,8 @@ async function main() {
         episode: 11,
         communityRank: 1,
         linkUrl: "https://southpark.fandom.com/fr/wiki/Casa_Bonita",
+        note: "Cartman en mission : manipulation + resto kitsch légendaire.",
+        cover: "/images/shows/casa_bonita.jpg",
       },
       {
         show: "South Park",
@@ -718,6 +717,8 @@ async function main() {
         episode: 8,
         communityRank: 2,
         linkUrl: "https://www.imdb.com/fr/title/tt0850173/",
+        note: "Guerre totale sur WoW : épique, méta, ultra culte.",
+        cover: "/images/shows/make_love_not_warcraft.png",
       },
       {
         show: "South Park",
@@ -727,6 +728,8 @@ async function main() {
         communityRank: 3,
         linkUrl:
           "https://southpark.fandom.com/fr/wiki/Le_No%C3%ABl_des_petits_animaux_de_la_for%C3%AAt",
+        note: "Conte de Noël… qui part très, très loin.",
+        cover: "/images/shows/christmas.webp",
       },
       {
         show: "South Park",
@@ -736,6 +739,8 @@ async function main() {
         communityRank: 4,
         linkUrl:
           "https://southpark.fandom.com/fr/wiki/Servietsky_(%C3%A9pisode)",
+        note: "L’épisode le plus absurde… et c’est pour ça qu’il marche.",
+        cover: "/images/shows/sarvietski.webp",
       },
       {
         show: "South Park",
@@ -745,6 +750,8 @@ async function main() {
         communityRank: 5,
         linkUrl:
           "https://southpark.fandom.com/fr/wiki/Scott_Tenorman_doit_mourir",
+        note: "Une vengeance glaçante : twist final mémorable.",
+        cover: "/images/shows/scott_tenorman.jpg",
       },
       {
         show: "South Park",
@@ -754,6 +761,8 @@ async function main() {
         communityRank: 6,
         linkUrl:
           "https://southpark.fandom.com/fr/wiki/Pi%C3%A9g%C3%A9_dans_le_placard",
+        note: "Satire pop-culture : gênant, drôle, imparable.",
+        cover: "/images/shows/piege_dans_le_placard.webp",
       },
       {
         show: "South Park",
@@ -762,9 +771,11 @@ async function main() {
         episode: 13,
         communityRank: 7,
         linkUrl: "https://southpark.fandom.com/fr/wiki/Stop_clopes",
+        note: "Parodie d’anti-tabac : agressif, efficace, culte.",
+        cover: "/images/shows/stop_clopes.webp",
       },
 
-      // -------- MALCOLM (titres FR, liens OK même en EN) --------
+      // -------- MALCOLM --------
       {
         show: "Malcolm",
         title: "Reese rejoint l'armée (Partie 2)",
@@ -773,6 +784,8 @@ async function main() {
         communityRank: 1,
         linkUrl:
           "https://malcolminthemiddle.fandom.com/wiki/Reese_Joins_the_Army:_Part_2",
+        note: "Reese en roue libre : situation impossible, hilarité garantie.",
+        cover: "/images/shows/reese_army.jpg",
       },
       {
         show: "Malcolm",
@@ -782,6 +795,8 @@ async function main() {
         communityRank: 2,
         linkUrl:
           "https://malcolminthemiddle.fandom.com/wiki/Hal%27s_Christmas_Gift",
+        note: "Hal se dépasse… et ça dérape de la meilleure manière.",
+        cover: "/images/shows/hal_christmas.webp",
       },
       {
         show: "Malcolm",
@@ -790,6 +805,8 @@ async function main() {
         episode: 13,
         communityRank: 3,
         linkUrl: "https://malcolminthemiddle.fandom.com/wiki/Rollerskates",
+        note: "Frères rivaux + patins : escalade de chaos instantanée.",
+        cover: "/images/shows/rollerskate.jpg",
       },
       {
         show: "Malcolm",
@@ -798,6 +815,8 @@ async function main() {
         episode: 22,
         communityRank: 4,
         linkUrl: "https://malcolminthemiddle.fandom.com/wiki/Graduation",
+        note: "Final parfait : émotion + humour, conclusion propre.",
+        cover: "/images/shows/remise_diplome.webp",
       },
       {
         show: "Malcolm",
@@ -806,6 +825,8 @@ async function main() {
         episode: 3,
         communityRank: 5,
         linkUrl: "https://malcolminthemiddle.fandom.com/wiki/Family_Reunion",
+        note: "La famille au complet : malaise, cris, grand spectacle.",
+        cover: "/images/shows/reunion_famille.jpg",
       },
       {
         show: "Malcolm",
@@ -815,6 +836,8 @@ async function main() {
         communityRank: 6,
         linkUrl:
           "https://malcolminthemiddle.fandom.com/wiki/If_Boys_Were_Girls",
+        note: "Et si tout avait été différent ? drôle et bien vu.",
+        cover: "/images/shows/if_boy_girls.webp",
       },
       {
         show: "Malcolm",
@@ -823,9 +846,13 @@ async function main() {
         episode: 3,
         communityRank: 7,
         linkUrl: "https://malcolminthemiddle.fandom.com/wiki/Lois%27_Birthday",
+        note: "Tout le monde veut bien faire… personne n’y arrive.",
+        cover: "/images/shows/anniversaire_lois.jpg",
       },
     ],
   });
+
+
 
   console.log("🌱 Seed séries (Simpsons / South Park / Malcolm) terminé");
   await prisma.legoCreation.createMany({
