@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const config = useRuntimeConfig();
 const api = config.public.apiBase;
-import { B } from "vue-router/dist/router-CWoNjPRp.mjs";
+
 import BloomerFooter from "~/components/BloomerFooter.vue"
 type ShowEpisode = {
   id: string;
