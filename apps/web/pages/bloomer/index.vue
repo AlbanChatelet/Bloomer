@@ -10,31 +10,31 @@ type BloomerCard = {
 
 const cards: BloomerCard[] = [
   {
-    title: "DIY Creations",
+    title: "Créations DIY",
     description: "Custom, peinture, broderie, objets faits main. Moodboard + focus modal.",
     to: "/bloomer/creations-diy",
     image: "/images/diy/cover.jpg",
   },
   {
-    title: "Music Albums",
+    title: "Albums cultes",
     description: "Albums cultes, repères, sélection. Une bibliothèque qui a du goût.",
     to: "/bloomer/music-albums",
     image: "/images/MusicAlbums/cover.jpg",
   },
   {
-    title: "Lego Creation",
+    title: "Créations en LEGO",
     description: "Créations LEGO, scènes, nostalgie, plaisir visuel.",
     to: "/bloomer/lego-creation",
     image: "/images/lego/cover.jpg",
   },
   {
-    title: "Décoration musique",
+    title: "Décoration & musique",
     description: "Platines, vinyles, setups, coins musique — inspirations visuelles.",
     to: "/bloomer/decoration-music",
     image: "/images/MusicAesthetics/cover.jpg",
   },
   {
-    title: "Show cultes",
+    title: "Shows cultes",
     description: "Épisodes marquants, classements et capsules pop culture à conserver.",
     to: "/bloomer/show-cultes",
     image: "/images/shows/cover.jpg",
