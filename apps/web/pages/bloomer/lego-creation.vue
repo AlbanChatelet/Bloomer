@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const config = useRuntimeConfig();
 const api = config.public.apiBase;
-
+import BloomerFooter from "~/components/BloomerFooter.vue"
 type LegoCreation = {
   id: string;
   title: string;
@@ -103,7 +103,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-gradient-to-b from-amber-50 to-orange-50 text-zinc-900">
+  <div class="min-h-screen bg-[#E9DCC6] text-zinc-900">
     <BloomerHeader />
 
     <div class="pt-20 sm:pt-24">
@@ -417,4 +417,5 @@ onMounted(() => {
       </main>
     </div>
   </div>
+  <BloomerFooter />
 </template>

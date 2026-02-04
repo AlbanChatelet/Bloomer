@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { joinURL } from "ufo"
 import DoomerHeader from "~/components/DoomerHeader.vue"
-
+import DoomerFooter from "~/components/DoomerFooter.vue"
 type DoomerTheme = {
   title: string
   slug: string
@@ -56,7 +56,7 @@ const themes: DoomerTheme[] = [
     title: "Réenchanter son quotidien",
     slug: "reenchanter",
     hook: "Pas de miracle. Des gestes de résistance.",
-    note: "Ennui, effort, mains, nature, imaginaire : redonner du relief au réel.",
+    note: "Ennui, effort, mains, nature, imaginaire.",
     label: "Sortie",
     image: "/doomer/images/nature.jpg",
   },
@@ -64,92 +64,73 @@ const themes: DoomerTheme[] = [
 
 const exits = [
   { title: "Apprendre à s’ennuyer", desc: "Laisser du silence. L’esprit recommence à fabriquer." },
-  { title: "Privilégier l’effort", desc: "Cuisiner, réparer, marcher. Ce qui coûte un peu rend le monde plus dense." },
-  { title: "Créer avec ses mains", desc: "Pas pour être parfait. Pour matérialiser quelque chose qui vient de toi." },
-  { title: "Revenir au réel", desc: "Sortir sans écouteurs parfois. Se remettre dans le décor." },
-  { title: "Nourrir l’imaginaire", desc: "Lire, jouer, apprendre sans objectif d’optimisation. L’inutile est vital." },
+  { title: "Privilégier l’effort", desc: "Ce qui coûte un peu rend le monde plus dense." },
+  { title: "Créer avec ses mains", desc: "Matérialiser quelque chose qui vient de toi." },
+  { title: "Revenir au réel", desc: "Marcher, observer, être là." },
+  { title: "Nourrir l’imaginaire", desc: "Lire, jouer, apprendre sans but d’optimisation." },
 ]
 
-// PNG doomer (safe baseURL)
 const config = useRuntimeConfig()
 const doomerPng = computed(() => joinURL(config.app.baseURL, "images/doomer.png"))
 </script>
 
 <template>
-  <!-- NAV ONLY -->
   <DoomerHeader />
 
   <div class="relative min-h-screen bg-[#06060a] text-zinc-100 overflow-hidden">
-    <!-- OVERLAY GLOBAL (violet/cyan + grain) -->
+    <!-- OVERLAY GLOBAL -->
     <div class="pointer-events-none fixed inset-0 -z-10">
       <div class="absolute inset-0 bg-gradient-to-br from-fuchsia-500/10 via-transparent to-cyan-400/10"></div>
       <div class="absolute inset-0 opacity-[0.06] mix-blend-overlay grain"></div>
 
-      <!-- Accents globaux -->
       <div class="absolute -top-24 left-1/2 h-80 w-[38rem] -translate-x-1/2 rounded-full bg-white/5 blur-3xl"></div>
       <div class="absolute bottom-[-12rem] right-[-8rem] h-[26rem] w-[26rem] rounded-full bg-indigo-500/10 blur-3xl"></div>
       <div class="absolute bottom-[-10rem] left-[-10rem] h-[22rem] w-[22rem] rounded-full bg-fuchsia-500/10 blur-3xl"></div>
     </div>
 
-    <!-- HERO IMAGE + TEXTE (comme ton screen) -->
+    <!-- HERO IMAGE + TEXTE -->
     <section class="relative h-[70vh] w-full overflow-hidden">
-      <!-- Image de fond -->
       <div
-  class="
-    absolute inset-0 bg-cover
+        class="absolute inset-0 bg-cover bg-left sm:bg-center"
+        style="background-image: url('/doomer/images/doomerhead.jpg')"
+      ></div>
 
-    /* mobile : on part de la gauche de l’image */
-    bg-left
-
-    /* tablet+ : image centrée */
-    sm:bg-center
-  "
-  style="background-image: url('/doomer/images/doomerhead.jpg')"
-></div>
-
-
-      <!-- Dégradé lisibilité + fondu -->
       <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-black/60 to-[#06060a]"></div>
 
-      <!-- Contenu -->
-      <div class="relative z-10 mx-auto max-w-6xl px-6 pt-28">
+      <div class="relative z-10 mx-auto max-w-6xl px-6 pt-48">
         <p class="text-xs tracking-wide text-zinc-400">DOOMER</p>
 
         <h1 class="mt-3 text-4xl font-extrabold sm:text-5xl">
           Le monde s’est <span class="text-zinc-300">aplati</span>.
         </h1>
 
-        <p class="mt-5 max-w-2xl text-zinc-300">
-          Tout est accessible. Tout est expliqué. Tout est optimisé.
-          <span class="text-zinc-200">Et pourtant, quelque chose manque.</span>
-        </p>
-
-        <div class="mt-8 flex flex-wrap gap-3">
-          <a
-            href="#themes"
-            class="rounded-full bg-white/10 px-5 py-2.5 text-sm font-semibold text-white hover:bg-white/15"
-          >
-            Commencer →
-          </a>
-
-          <a
-            href="#reenchanter"
-            class="rounded-full bg-black/30 px-5 py-2.5 text-sm font-semibold text-zinc-200 hover:bg-white/10"
-          >
-            Aller aux sorties ↓
-          </a>
+        <!-- INTRO DANS LE HERO (SOUS LE TITRE) -->
+        <div class="mt-6 max-w-3xl text-zinc-300 leading-relaxed space-y-4">
+          <p>
+            Petits, on rencontrait l’ennui souvent — et c’était
+            <span class="em">une chance</span>.
+            On n’avait pas grand-chose, alors on bricolait des mondes avec
+            <span class="em">des détails</span> : une forêt, un terrain vague, des vieux jouets,
+            des jeux pas parfaits, pleins de limites et de flous.
+          </p>
+          <p>
+            Aujourd’hui, tout arrive en
+            <span class="em">deux clics</span> : infos, images, itinéraires, avis, explications.
+            Le mystère se fait rare. Plus on rationalise, plus le réel devient
+            <span class="em">fonctionnel</span>… et parfois, sans saveur.
+          </p>
         </div>
       </div>
     </section>
 
-    <!-- DOOMER PNG -->
-    
-
     <!-- THEMES -->
-    <section id="themes" class="mx-auto max-w-6xl px-6 py-2 md:py-10">
+    <section id="themes" class="mx-auto max-w-6xl px-6 py-12">
       <h2 class="text-2xl font-bold">Thèmes</h2>
-      <p class="mt-2 max-w-2xl text-zinc-300">
-        Six portes. Six angles. Même malaise de fond.
+      <p class="mt-2 max-w-3xl text-zinc-300 leading-relaxed">
+        Ces thèmes découpent le malaise en morceaux : le
+        <span class="em">mystère perdu</span>, la saturation dopamine, les décors froids,
+        le virtuel infini face au réel limité… et cette sensation diffuse que
+        <span class="em">quelque chose s’éteint</span>.
       </p>
 
       <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -157,7 +138,7 @@ const doomerPng = computed(() => joinURL(config.app.baseURL, "images/doomer.png"
           v-for="t in themes"
           :key="t.slug"
           :to="`/doomer/themes/${t.slug}`"
-          class="group relative block h-[320px] overflow-hidden rounded-3xl border border-white/10 bg-black/30 transition hover:-translate-y-1"
+          class="group relative block h-[320px] overflow-hidden rounded-3xl border border-white/10 bg-black/30 transition hover:-translate-y-1 hover:shadow-2xl hover:shadow-black/50"
         >
           <div class="absolute inset-0">
             <div
@@ -191,23 +172,51 @@ const doomerPng = computed(() => joinURL(config.app.baseURL, "images/doomer.png"
       </div>
     </section>
 
+    <!-- TEXTE AVANT REENCHANTER -->
+    <section class="mx-auto max-w-6xl px-6 pt-2 pb-6">
+      <p class="max-w-3xl text-zinc-300 leading-relaxed">
+        Le problème, ce n’est pas “internet” ou “la modernité”.
+        C’est le rythme : scroll, micro-chocs émotionnels, infos infinies.
+        Notre cerveau n’est pas fait pour avaler autant, si vite.
+        Après l’écran, la vie est toujours la même — et ce décalage peut créer
+        <span class="em">fatigue</span>, <span class="em">frustration</span> et perte de sens.
+      </p>
+    </section>
+
     <!-- REENCHANTER -->
     <section id="reenchanter" class="mx-auto max-w-6xl px-6 py-10">
       <h2 class="text-2xl font-bold">Réenchanter</h2>
-      <p class="mt-2 max-w-2xl text-zinc-300">
-        Pas des solutions miracles. Des gestes simples.
+      <p class="mt-2 max-w-3xl text-zinc-300 leading-relaxed">
+        Ici, pas de “hack”. Pas de recette miracle.
+        Juste des gestes simples, répétés, qui redonnent du relief :
+        <span class="em">du silence</span>, <span class="em">de l’effort</span>, <span class="em">des mains</span>,
+        du dehors, et de l’imaginaire qui reprend de la place.
       </p>
 
       <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <article
           v-for="e in exits"
           :key="e.title"
-          class="rounded-2xl border border-white/10 bg-white/5 p-5"
+          class="rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:-translate-y-1 hover:bg-white/[0.07] hover:shadow-xl hover:shadow-black/40"
         >
           <h3 class="font-bold">{{ e.title }}</h3>
           <p class="mt-2 text-sm text-zinc-300">{{ e.desc }}</p>
         </article>
       </div>
+    </section>
+
+    <!-- TEXTE APRES REENCHANTER -->
+    <section class="mx-auto max-w-6xl px-6 pb-10">
+      <p class="max-w-3xl text-zinc-300 leading-relaxed">
+        Réenchanter “le monde” entier, c’est parfois hors de portée.
+        Mais réenchanter <span class="em">ton quotidien</span>, ça se travaille.
+        À petite échelle : un repas fait maison, une marche sans écouteurs,
+        une création imparfaite mais réelle.
+        <br /><br />
+        Quand tu veux aller plus loin, quand tu veux voir du
+        <span class="em">relief</span> partout (objets, images, matières, atmosphères),
+        c’est là que commence BLOOMER.
+      </p>
     </section>
 
     <!-- FOOTER -->
@@ -218,10 +227,18 @@ const doomerPng = computed(() => joinURL(config.app.baseURL, "images/doomer.png"
       </p>
     </footer>
   </div>
+  <DoomerFooter />
 </template>
 
 <style scoped>
 .grain {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+}
+
+/* "gras" stylé (pas du markdown) */
+.em {
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 0 18px rgba(99, 102, 241, 0.18);
 }
 </style>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref, computed } from "vue";
 import BloomerHeader from "~/components/BloomerHeader.vue";
-
+import BloomerFooter from "~/components/BloomerFooter.vue"
 const config = useRuntimeConfig();
 const api = config.public.apiBase;
 
@@ -52,7 +52,7 @@ onBeforeUnmount(() => window.removeEventListener("keydown", onKey));
 </script>
 
 <template>
-  <div class="min-h-screen bg-gradient-to-b from-amber-50 to-orange-50 text-zinc-900">
+  <div class="min-h-screen bg-[#E9DCC6] text-zinc-900">
     <BloomerHeader />
 
     <div class="pt-20 sm:pt-24">
@@ -217,6 +217,7 @@ onBeforeUnmount(() => window.removeEventListener("keydown", onKey));
       </div>
     </Teleport>
   </div>
+  <BloomerFooter />
 </template>
 
 <style scoped>

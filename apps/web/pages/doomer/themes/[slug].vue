@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { doomerThemes, doomerContent } from "~/content/doomer.content"
 import DoomerHeader from "~/components/DoomerHeader.vue"
-
+import DoomerFooter from "~/components/DoomerFooter.vue"
 const route = useRoute()
 
 const slug = computed(() => String(route.params.slug || ""))
@@ -15,38 +15,33 @@ const prev = computed(() => (index.value > 0 ? themes[index.value - 1] : null))
 const next = computed(() => (index.value >= 0 && index.value < themes.length - 1 ? themes[index.value + 1] : null))
 
 const blocks = computed(() => doomerContent[slug.value] || [])
-
-// 3 cadres d’illustration
 const illus = computed(() => theme.value!.illustrations)
 </script>
 
 <template>
-  <!-- NAV globale (transparent + blur) -->
   <DoomerHeader />
 
   <div class="min-h-screen bg-[#06060a] text-zinc-100">
-    <!-- Background accents -->
-    <div class="pointer-events-none fixed inset-0 -z-10">
-      <div class="absolute -top-24 left-1/2 h-80 w-[38rem] -translate-x-1/2 rounded-full bg-white/5 blur-3xl"></div>
-      <div class="absolute bottom-[-12rem] right-[-8rem] h-[26rem] w-[26rem] rounded-full bg-indigo-500/10 blur-3xl"></div>
-      <div class="absolute bottom-[-10rem] left-[-10rem] h-[22rem] w-[22rem] rounded-full bg-fuchsia-500/10 blur-3xl"></div>
-    </div>
+    <!-- HERO IMMERSIF -->
+    <header class="relative isolate overflow-hidden min-h-[120vh]">
+      <!-- Fond image -->
+      <div class="pointer-events-none absolute inset-0 z-0">
+        <div
+          class="absolute inset-0 bg-cover bg-center scale-110"
+          :style="{ backgroundImage: `url(${theme!.image})` }"
+        ></div>
 
-    <!-- HERO du thème (sans nav, car nav = DoomerHeader) -->
-    <header class="relative overflow-hidden pt-24">
-      <div class="absolute inset-0">
-        <div class="h-full w-full bg-cover bg-center" :style="{ backgroundImage: `url(${theme!.image})` }" />
-        <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 to-black/25"></div>
-        <div class="absolute inset-0 bg-gradient-to-br from-fuchsia-500/15 via-transparent to-cyan-400/15"></div>
+        <div class="absolute inset-0 bg-black/50"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-black/10 via-black/60 to-[#06060a]"></div>
         <div class="absolute inset-0 opacity-[0.07] mix-blend-overlay grain"></div>
       </div>
 
-      <div class="relative mx-auto max-w-6xl px-6 py-14">
-        <!-- Petites infos (pas un nav) -->
+      <!-- Contenu hero -->
+      <div class="relative z-10 mx-auto max-w-4xl px-6 pt-32">
         <div class="flex flex-wrap items-center gap-3">
           <NuxtLink
             to="/doomer"
-            class="rounded-full border border-white/15 bg-black/40 px-3 py-1 text-xs font-semibold text-zinc-200 hover:bg-white/5"
+            class="rounded-full border border-white/15 bg-black/40 px-3 py-1 text-xs font-semibold transition hover:bg-white/10 hover:shadow-lg hover:shadow-white/5"
           >
             ← Retour DOOMER
           </NuxtLink>
@@ -56,265 +51,138 @@ const illus = computed(() => theme.value!.illustrations)
           >
             {{ theme!.label }}
           </span>
-
-          <span class="hidden sm:inline text-xs text-zinc-400">
-            / thème {{ index + 1 }} — {{ themes.length }}
-          </span>
         </div>
 
-        <h1 class="mt-6 text-4xl font-extrabold leading-tight sm:text-5xl">
+        <h1 class="mt-8 text-4xl font-extrabold leading-tight sm:text-5xl">
           {{ theme!.title }}
         </h1>
 
-        <p class="mt-4 max-w-2xl text-base leading-relaxed text-zinc-200">
+        <p class="mt-6 max-w-2xl text-base leading-relaxed text-zinc-200">
           {{ theme!.hook }}
         </p>
+
         <p class="mt-4 max-w-2xl text-sm leading-relaxed text-zinc-300">
           {{ theme!.note }}
         </p>
+      </div>
 
-        <div class="mt-8 flex flex-wrap gap-3">
-          <a
-            href="#act-1"
-            class="rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-zinc-100 hover:bg-white/15"
-          >
-            Commencer →
-          </a>
-          <NuxtLink
-            to="/bloomer"
-            class="rounded-full bg-amber-200/10 px-4 py-2 text-sm font-semibold text-amber-100 hover:bg-amber-200/15"
-          >
-            Respiration : BLOOMER →
-          </NuxtLink>
+      <!-- IMAGE 1 -->
+      <div class="relative z-10 mt-10">
+        <div class="mx-auto max-w-4xl px-6">
+          <div class="group overflow-hidden rounded-3xl border border-white/10 bg-black/40 transition hover:-translate-y-1 hover:shadow-2xl hover:shadow-black/50">
+            <div class="relative aspect-[16/9] overflow-hidden">
+              <img
+                :src="illus.image1"
+                :alt="`Illustration 1 — ${theme!.title}`"
+                class="absolute h-full w-full object-cover transition duration-700 group-hover:scale-105"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/35 to-black/10"></div>
+            </div>
+          </div>
         </div>
       </div>
     </header>
 
-    <main class="mx-auto max-w-6xl px-6 py-10">
-      <div class="grid gap-6 lg:grid-cols-12">
-        <!-- CONTENU -->
-        <section class="lg:col-span-8 space-y-6">
-          <!-- ACT 1 -->
-          <section id="act-1" class="rounded-3xl border border-white/10 bg-white/5 p-6">
-            <div class="flex items-center justify-between gap-4">
-              <div>
-                <p class="text-[11px] font-semibold uppercase tracking-widest text-zinc-400">Act I</p>
-                <h2 class="mt-1 text-lg font-extrabold">Le diagnostic</h2>
-              </div>
-              <div class="h-[2px] w-20 bg-gradient-to-r from-fuchsia-400 via-cyan-300 to-indigo-400 opacity-80"></div>
+    <!-- CONTENU -->
+    <main
+      id="content"
+      class="mx-auto max-w-4xl px-6 pt-16 pb-14 space-y-8"
+    >
+      <!-- BLOCS -->
+      <div
+        v-for="(b, i) in blocks"
+        :key="i"
+        class="group rounded-3xl border border-white/10 bg-white/5 p-6 transition duration-300 hover:-translate-y-1 hover:bg-white/[0.07] hover:shadow-xl hover:shadow-black/40"
+      >
+        <template v-if="b.kind === 'text'">
+          <h3 class="text-lg font-extrabold">{{ b.title }}</h3>
+          <div class="mt-4 space-y-3 text-sm leading-relaxed text-zinc-300">
+            <p v-for="(p, j) in b.paragraphs" :key="j">{{ p }}</p>
+          </div>
+        </template>
+
+        <template v-else-if="b.kind === 'list'">
+          <div class="group mb-5 overflow-hidden rounded-3xl border border-white/10 bg-black/40 transition hover:-translate-y-1 hover:shadow-xl hover:shadow-black/40">
+            <div class="relative aspect-[21/9] overflow-hidden">
+              <img
+                :src="illus.image2"
+                :alt="`Illustration 2 — ${theme!.title}`"
+                class="absolute h-full w-full object-cover transition duration-700 group-hover:scale-105"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10"></div>
             </div>
-
-            <!-- Cadre image 1 -->
-            <div class="mt-5 group relative overflow-hidden rounded-3xl border border-white/10 bg-black/40">
-              <div class="absolute -inset-1 opacity-0 blur-xl transition duration-500 group-hover:opacity-100">
-                <div class="h-full w-full rounded-[26px] bg-gradient-to-br from-fuchsia-500/35 via-cyan-400/25 to-indigo-500/35"></div>
-              </div>
-
-              <div class="relative aspect-[16/9] w-full">
-                <img
-                  :src="illus.image1"
-                  :alt="`Illustration 1 — ${theme!.title}`"
-                  class="absolute h-full w-full object-cover"
-                />
-
-                <!-- overlays -->
-                <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,#141424,transparent_60%)]"></div>
-                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/35 to-black/10"></div>
-              </div>
-            </div>
-          </section>
-
-          <!-- Blocs dynamiques -->
-          <div
-            v-for="(b, i) in blocks"
-            :key="i"
-            class="group rounded-3xl border border-white/10 bg-white/5 p-6 transition hover:-translate-y-[2px] hover:bg-white/[0.07]"
-          >
-            <!-- TEXT -->
-            <template v-if="b.kind === 'text'">
-              <h3 class="text-lg font-extrabold">
-                {{ b.title }}
-              </h3>
-              <div class="mt-4 space-y-3 text-sm leading-relaxed text-zinc-300">
-                <p v-for="(p, j) in b.paragraphs" :key="j">{{ p }}</p>
-              </div>
-              <div class="mt-5 h-[2px] w-12 bg-gradient-to-r from-fuchsia-400 via-cyan-300 to-indigo-400"></div>
-            </template>
-
-            <!-- LIST -->
-            <template v-else-if="b.kind === 'list'">
-              <!-- Cadre image 2 -->
-              <div class="mt-5 mb-5 group relative overflow-hidden rounded-3xl border border-white/10 bg-black/40" id="act-2">
-                <div class="absolute -inset-1 opacity-0 blur-xl transition duration-500 group-hover:opacity-100">
-                  <div class="h-full w-full rounded-[26px] bg-gradient-to-br from-cyan-400/25 via-fuchsia-500/20 to-indigo-500/25"></div>
-                </div>
-
-                <div class="relative aspect-[21/9] w-full">
-                  <img
-                    :src="illus.image2"
-                    :alt="`Illustration 2 — ${theme!.title}`"
-                    class="absolute h-full w-full object-cover"
-                  />
-                  <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,#101022,transparent_60%)]"></div>
-                  <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10"></div>
-                </div>
-              </div>
-
-              <h3 class="text-lg font-extrabold">{{ b.title }}</h3>
-              <ul class="mt-4 space-y-2 text-sm text-zinc-300">
-                <li v-for="(it, j) in b.items" :key="j" class="flex gap-3">
-                  <span class="mt-1 h-2 w-2 shrink-0 rounded-full bg-cyan-300/70"></span>
-                  <span>{{ it }}</span>
-                </li>
-              </ul>
-              <div class="mt-5 h-px w-16 bg-gradient-to-r from-white/15 to-transparent"></div>
-            </template>
-
-            <!-- QUOTE -->
-            <template v-else-if="b.kind === 'quote'">
-              <div class="relative overflow-hidden rounded-3xl border border-white/10 bg-black/20 p-6">
-                <div class="absolute inset-0 bg-gradient-to-br from-fuchsia-500/10 via-transparent to-cyan-400/10"></div>
-                <p class="relative text-base font-semibold leading-relaxed text-zinc-100">
-                  <span class="text-cyan-200">“</span>{{ b.text }}<span class="text-cyan-200">”</span>
-                </p>
-                <p v-if="b.author" class="relative mt-3 text-xs text-zinc-400">— {{ b.author }}</p>
-              </div>
-            </template>
-
-            <!-- ACTIONS -->
-            <template v-else-if="b.kind === 'actions'">
-              <h3 class="text-lg font-extrabold">{{ b.title }}</h3>
-
-              <!-- Cadre image 3 -->
-              <div class="mt-5 group relative overflow-hidden rounded-3xl border border-white/10 bg-black/40">
-                <div class="absolute -inset-1 opacity-0 blur-xl transition duration-500 group-hover:opacity-100">
-                  <div class="h-full w-full rounded-[26px] bg-gradient-to-br from-indigo-500/30 via-cyan-400/20 to-fuchsia-500/30"></div>
-                </div>
-
-                <div class="relative aspect-[16/10] w-full">
-                  <img
-                    :src="illus.image3"
-                    :alt="`Illustration 3 — ${theme!.title}`"
-                    class="absolute h-full w-full object-cover"
-                  />
-                  <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,#12122a,transparent_60%)]"></div>
-                  <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/35 to-black/10"></div>
-                </div>
-              </div>
-
-              <div class="mt-5 grid gap-4 sm:grid-cols-2">
-                <article
-                  v-for="(a, j) in b.items"
-                  :key="j"
-                  class="relative overflow-hidden rounded-2xl border border-white/10 bg-black/20 p-5 transition hover:-translate-y-0.5 hover:bg-white/5"
-                >
-                  <div class="pointer-events-none absolute inset-0 opacity-0 transition duration-500 hover:opacity-100">
-                    <div class="absolute -inset-1 bg-gradient-to-br from-fuchsia-500/15 via-transparent to-cyan-400/15 blur-xl"></div>
-                  </div>
-
-                  <div class="relative">
-                    <h4 class="text-sm font-bold text-zinc-100">{{ a.title }}</h4>
-                    <p class="mt-2 text-sm leading-relaxed text-zinc-300">{{ a.desc }}</p>
-                    <div class="mt-4 h-[2px] w-10 bg-gradient-to-r from-cyan-300/70 to-transparent transition-all hover:w-16"></div>
-                  </div>
-                </article>
-              </div>
-            </template>
           </div>
 
-          <!-- ACT 3 -->
-          <section id="act-3" class="rounded-3xl border border-white/10 bg-white/5 p-6">
-            <div class="flex items-center justify-between gap-4">
-              <div>
-                <p class="text-[11px] font-semibold uppercase tracking-widest text-zinc-400">Act III</p>
-                <h2 class="mt-1 text-lg font-extrabold">Clore / enchaîner</h2>
-              </div>
-              <div class="h-[2px] w-20 bg-gradient-to-r from-fuchsia-400 via-cyan-300 to-indigo-400 opacity-80"></div>
-            </div>
+          <h3 class="text-lg font-extrabold">{{ b.title }}</h3>
+          <ul class="mt-4 space-y-2 text-sm text-zinc-300">
+            <li
+              v-for="(it, j) in b.items"
+              :key="j"
+              class="flex gap-3 transition hover:text-zinc-100"
+            >
+              <span class="mt-1 h-2 w-2 rounded-full bg-cyan-300/70"></span>
+              {{ it }}
+            </li>
+          </ul>
+        </template>
 
-            <div class="mt-6 flex flex-wrap items-center justify-between gap-3">
-              <NuxtLink
-                v-if="prev"
-                :to="`/doomer/themes/${prev.slug}`"
-                class="rounded-full bg-white/5 px-4 py-2 text-sm font-semibold text-zinc-200 hover:bg-white/10"
-              >
-                ← {{ prev.title }}
-              </NuxtLink>
+        <template v-else-if="b.kind === 'quote'">
+          <p class="text-base font-semibold leading-relaxed text-zinc-100 transition group-hover:text-white">
+            “{{ b.text }}”
+          </p>
+          <p v-if="b.author" class="mt-2 text-xs text-zinc-400">
+            — {{ b.author }}
+          </p>
+        </template>
 
-              <NuxtLink
-                v-if="next"
-                :to="`/doomer/themes/${next.slug}`"
-                class="rounded-full bg-white/10 px-4 py-2 text-sm font-semibold hover:bg-white/15"
-              >
-                {{ next.title }} →
-              </NuxtLink>
-            </div>
-          </section>
-        </section>
+        <template v-else-if="b.kind === 'actions'">
+          <h3 class="text-lg font-extrabold">{{ b.title }}</h3>
 
-        <!-- SIDEBAR -->
-        <aside class="lg:col-span-4 space-y-4">
-          <div class="lg:sticky lg:top-24 space-y-4">
-            <div class="rounded-3xl border border-white/10 bg-white/5 p-6">
-              <h3 class="text-sm font-extrabold">Sommaire</h3>
-
-              <div class="mt-4 flex flex-col gap-2 text-sm">
-                <a href="#act-1" class="rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-zinc-200 hover:bg-white/5">
-                  Act I — Diagnostic
-                </a>
-                <a href="#act-2" class="rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-zinc-200 hover:bg-white/5">
-                  Act II — Solutions
-                </a>
-                <a href="#act-3" class="rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-zinc-200 hover:bg-white/5">
-                  Act III — Enchaîner
-                </a>
-              </div>
-
-              <div class="mt-4 h-px w-full bg-white/10"></div>
-
-              <div class="mt-4 flex flex-col gap-2">
-                <NuxtLink
-                  v-if="prev"
-                  :to="`/doomer/themes/${prev.slug}`"
-                  class="rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-zinc-200 hover:bg-white/5"
-                >
-                  ← {{ prev.title }}
-                </NuxtLink>
-
-                <NuxtLink
-                  v-if="next"
-                  :to="`/doomer/themes/${next.slug}`"
-                  class="rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-zinc-200 hover:bg-white/5"
-                >
-                  {{ next.title }} →
-                </NuxtLink>
-
-                <NuxtLink
-                  to="/doomer"
-                  class="mt-1 rounded-2xl bg-white/10 px-4 py-3 text-sm font-semibold hover:bg-white/15"
-                >
-                  Retour à DOOMER
-                </NuxtLink>
-              </div>
-            </div>
-
-            <div class="rounded-3xl border border-white/10 bg-white/5 p-6">
-              <h3 class="text-sm font-extrabold">Pont vers BLOOMER</h3>
-              <p class="mt-3 text-sm leading-relaxed text-zinc-300">
-                Besoin de relief tout de suite : objets, images, créations, nostalgie.
-              </p>
-              <NuxtLink
-                to="/bloomer"
-                class="mt-4 inline-flex rounded-full bg-amber-200/10 px-4 py-2 text-sm font-semibold text-amber-100 hover:bg-amber-200/15"
-              >
-                Aller vers BLOOMER →
-              </NuxtLink>
+          <div class="group mt-5 overflow-hidden rounded-3xl border border-white/10 bg-black/40 transition hover:-translate-y-1 hover:shadow-xl hover:shadow-black/40">
+            <div class="relative aspect-[16/10] overflow-hidden">
+              <img
+                :src="illus.image3"
+                :alt="`Illustration 3 — ${theme!.title}`"
+                class="absolute h-full w-full object-cover transition duration-700 group-hover:scale-105"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/35 to-black/10"></div>
             </div>
           </div>
-        </aside>
+
+          <div class="mt-5 grid gap-4 sm:grid-cols-2">
+            <article
+              v-for="(a, j) in b.items"
+              :key="j"
+              class="rounded-2xl border border-white/10 bg-black/20 p-5 transition duration-300 hover:-translate-y-1 hover:bg-white/5 hover:shadow-lg hover:shadow-black/40"
+            >
+              <h4 class="text-sm font-bold">{{ a.title }}</h4>
+              <p class="mt-2 text-sm text-zinc-300">{{ a.desc }}</p>
+            </article>
+          </div>
+        </template>
+      </div>
+
+      <!-- NAV BAS -->
+      <div class="flex flex-wrap justify-between gap-3 pt-6">
+        <NuxtLink
+          v-if="prev"
+          :to="`/doomer/themes/${prev.slug}`"
+          class="rounded-full bg-white/5 px-4 py-2 text-sm transition hover:-translate-x-1 hover:bg-white/10"
+        >
+          ← {{ prev.title }}
+        </NuxtLink>
+
+        <NuxtLink
+          v-if="next"
+          :to="`/doomer/themes/${next.slug}`"
+          class="rounded-full bg-white/10 px-4 py-2 text-sm transition hover:translate-x-1 hover:bg-white/15"
+        >
+          {{ next.title }} →
+        </NuxtLink>
       </div>
     </main>
   </div>
+  <DoomerFooter />
 </template>
 
 <style scoped>

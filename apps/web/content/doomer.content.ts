@@ -80,8 +80,8 @@ export const doomerThemes: Theme[] = [
     image: "/doomer/images/grand_recit.jpg",
     illustrations: {
       image1: "/doomer/illustrations/perte-de-sens/image1.jpeg",
-      image2: "/doomer/illustrations/perte-de-sens/image2.webp",
-      image3: "/doomer/illustrations/perte-de-sens/image3.avif",
+      image2: "/doomer/illustrations/perte-de-sens/image2.jpg",
+      image3: "/doomer/illustrations/perte-de-sens/image3.jpg",
     },
   },
   {
@@ -93,7 +93,7 @@ export const doomerThemes: Theme[] = [
     image: "/doomer/images/nature.jpg",
     illustrations: {
       image1: "/doomer/illustrations/reenchanter/image1.jpg",
-      image2: "/doomer/illustrations/reenchanter/image2.jpg",
+      image2: "/doomer/illustrations/reenchanter/image2.webp",
       image3: "/doomer/illustrations/reenchanter/image3.jpg",
     },
   },

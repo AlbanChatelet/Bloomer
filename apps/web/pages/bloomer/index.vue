@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import BloomerHeader from "~/components/BloomerHeader.vue";
-
+import BloomerHeader from "~/components/BloomerHeader.vue"
+import BloomerFooter from "~/components/BloomerFooter.vue"
 type BloomerCard = {
-  title: string;
-  description: string;
-  to: string;
-  image: string;
-};
+  title: string
+  description: string
+  to: string
+  image: string
+}
 
 const cards: BloomerCard[] = [
   {
@@ -39,43 +39,38 @@ const cards: BloomerCard[] = [
     to: "/bloomer/show-cultes",
     image: "/images/shows/cover.jpg",
   },
-];
+]
 
-const bloomerCover = "/images/BloomerCover.jpg";
+const bloomerCover = "/images/BloomerCover.jpg"
 
-const firstRow = computed(() => cards.slice(0, 3));
-const secondRow = computed(() => cards.slice(3));
+const firstRow = computed(() => cards.slice(0, 3))
+const secondRow = computed(() => cards.slice(3))
 </script>
 
 <template>
-  
-  <div class="min-h-screen bg-gradient-to-b from-amber-50 via-zinc-50 to-white text-zinc-900">
+  <div class="min-h-screen bg-[#E9DCC6] text-zinc-900">
     <BloomerHeader />
 
-    <!-- HERO (image + titre uniquement) -->
+    <!-- HERO -->
     <section class="relative">
       <div class="relative h-[520px] w-full overflow-hidden sm:h-[660px]">
         <img
           :src="bloomerCover"
           alt="Bloomer cover"
-          class="h-full w-full object-cover"
+          class="h-full w-full object-cover scale-[1.03] blur-[3px]"
           loading="eager"
         />
 
-        <!-- overlays (léger, pour lisibilité du titre) -->
+        <!-- overlay lisibilité -->
         <div class="absolute inset-0 bg-black/10"></div>
 
         <!-- fondu bas -->
         <div
           class="pointer-events-none absolute inset-x-0 bottom-0 h-[260px] sm:h-[320px]
-                 bg-gradient-to-b from-transparent via-amber-50/35 to-amber-50/90"
-        />
-        <div
-          class="pointer-events-none absolute inset-x-0 bottom-0 h-[140px] sm:h-[180px]
-                 bg-gradient-to-b from-transparent via-amber-50/90 to-amber-50"
+                 bg-gradient-to-b from-transparent via-[#E9DCC6]/60 to-[#E9DCC6]"
         />
 
-        <!-- Titre only -->
+        <!-- Titre -->
         <div class="absolute inset-0">
           <div class="mx-auto flex h-full max-w-6xl items-end px-6 pb-14 pt-28 sm:pb-16">
             <div class="w-full">
@@ -86,42 +81,45 @@ const secondRow = computed(() => cards.slice(3));
               <h1 class="mt-4 text-4xl font-extrabold leading-tight text-zinc-900 sm:text-5xl">
                 Culture visuelle, nostalgie, <span class="text-amber-700">goût</span>.
               </h1>
+
+              <!-- INTRO COURTE DANS LE HERO -->
+              <p class="mt-5 max-w-3xl text-base leading-relaxed text-zinc-900/80 sm:text-lg">
+                Là où DOOMER décrit ce qui éteint, BLOOMER rassemble ce qui rallume :
+                <span class="em">des images</span>, <span class="em">des objets</span>,
+                <span class="em">des passions</span> et des gestes simples.
+                Pas pour “optimiser” ta vie — pour la <span class="em">ressentir</span> davantage.
+              </p>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- respiration -->
-      <div class="h-10 sm:h-14 bg-amber-50"></div>
+      <div class="h-10 sm:h-14 bg-[#E9DCC6]"></div>
     </section>
 
-    <!-- TEXTE ÉDITORIAL (en dessous, pleine largeur like cards) -->
-    <section class="bg-amber-50">
+    <!-- TEXTE 1 (AVANT CARDS) -->
+    <section class="bg-[#E9DCC6]">
       <div class="mx-auto max-w-6xl px-6 pb-10 sm:pb-12">
-        <!-- sur desktop on peut étaler un peu la lecture sans faire “trou” -->
         <div class="grid gap-8 lg:grid-cols-12">
           <div class="lg:col-span-10">
-            <p class="text-lg leading-relaxed text-zinc-900">
+            <p class="text-lg leading-relaxed">
               Bloomer est un espace éditorial pensé pour
-              <span class="font-bold">réenchanter le quotidien</span>.
-              Dans un monde où tout est rapide, optimisé et immédiatement accessible,
-              l’idée est de <span class="font-bold">ralentir volontairement</span>,
-              et de redonner de la valeur au temps long et à l’attention.
+              <span class="em">réenchanter le quotidien</span> à petite échelle.
+              Quand tout va trop vite, on revient à ce qui a du poids :
+              <span class="em">le temps long</span>, la matière, l’attention.
             </p>
 
-            <p class="mt-4 text-lg leading-relaxed text-zinc-900">
-              Construire un objet, écouter un album en entier, observer une image,
-              ou replonger dans une œuvre qui a marqué.
-              Pas pour consommer plus, mais pour
-              <span class="font-bold">ressentir davantage</span>,
-              nourrir l’imaginaire et recréer un lien sensible avec ce qui nous entoure.
+            <p class="mt-4 text-lg leading-relaxed">
+              Construire un objet, terminer un album, collectionner des images,
+              soigner un coin de déco…
+              Ces choses semblent “inutiles” — et c’est justement pour ça qu’elles sont
+              <span class="em">vitales</span>.
             </p>
 
-            <p class="mt-4 text-lg leading-relaxed text-zinc-900">
-              Même à <span class="font-bold">petite échelle</span>, ces gestes ont un impact réel :
-              ils redonnent de la profondeur au quotidien, réhabilitent le plaisir de faire
-              et rappellent que le monde peut encore être
-              <span class="font-bold">habité, façonné et vécu</span>.
+            <p class="mt-4 text-lg leading-relaxed">
+              Ici, tu ne scrolles pas pour oublier. Tu explores pour
+              <span class="em">te rappeler</span> : ce que tu aimes, ce qui te calme,
+              ce qui te fait dire “ok… ça, c’est beau”.
             </p>
           </div>
         </div>
@@ -129,8 +127,7 @@ const secondRow = computed(() => cards.slice(3));
     </section>
 
     <!-- CARDS -->
-    <main class="mx-auto max-w-6xl px-6 pb-20 pt-8" >
-      <!-- Row 1 -->
+    <main class="mx-auto max-w-6xl px-6 pb-14 pt-6">
       <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         <NuxtLink
           v-for="c in firstRow"
@@ -145,27 +142,22 @@ const secondRow = computed(() => cards.slice(3));
             :src="c.image"
             :alt="c.title"
             class="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]"
-            loading="lazy"
           />
 
           <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent"></div>
 
           <div class="relative flex h-[320px] flex-col justify-end p-6">
-            <div class="flex items-center justify-between">
-              <h2 class="text-lg font-bold text-white">{{ c.title }}</h2>
-              <span class="text-white">→</span>
-            </div>
-
+            <h2 class="text-lg font-bold text-white">{{ c.title }}</h2>
             <p class="mt-2 text-sm text-white/85 line-clamp-2">
               {{ c.description }}
             </p>
 
-            <div class="mt-4 h-px w-10 bg-amber-300/80"></div>
+            <!-- mini underline qui se dessine -->
+            <div class="mt-4 h-[2px] w-0 bg-amber-200/90 transition-all duration-500 group-hover:w-14"></div>
           </div>
         </NuxtLink>
       </div>
 
-      <!-- Row 2 -->
       <div class="mt-6 grid gap-6 lg:grid-cols-2">
         <NuxtLink
           v-for="c in secondRow"
@@ -180,25 +172,57 @@ const secondRow = computed(() => cards.slice(3));
             :src="c.image"
             :alt="c.title"
             class="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-[1.05]"
-            loading="lazy"
           />
 
           <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent"></div>
 
           <div class="relative flex h-[380px] flex-col justify-end p-7">
-            <div class="flex items-center justify-between">
-              <h2 class="text-xl font-extrabold text-white">{{ c.title }}</h2>
-              <span class="text-white text-lg">→</span>
-            </div>
-
+            <h2 class="text-xl font-extrabold text-white">{{ c.title }}</h2>
             <p class="mt-2 text-base text-white/85 line-clamp-2">
               {{ c.description }}
             </p>
 
-            <div class="mt-5 h-px w-14 bg-amber-300/80"></div>
+            <div class="mt-4 h-[2px] w-0 bg-amber-200/90 transition-all duration-500 group-hover:w-16"></div>
           </div>
         </NuxtLink>
       </div>
     </main>
+
+    <!-- TEXTE 2 (APRES THEMES) -->
+    <section class="bg-[#E9DCC6]">
+      <div class="mx-auto max-w-6xl px-6 pb-20">
+        <div class="grid gap-8 lg:grid-cols-12">
+          <div class="lg:col-span-10">
+            <p class="text-lg leading-relaxed">
+              BLOOMER, c’est une réponse douce : au lieu d’ajouter du bruit,
+              on choisit <span class="em">des repères</span>.
+              Une image qui reste. Un objet qui raconte. Une musique qui te suit.
+            </p>
+
+            <p class="mt-4 text-lg leading-relaxed">
+              Et surtout : le droit de faire des choses
+              <span class="em">pas parfaites</span>.
+              Le but n’est pas d’être “instagrammable”, mais de fabriquer du réel,
+              avec tes goûts, tes erreurs, tes obsessions.
+            </p>
+
+            <p class="mt-4 text-lg leading-relaxed">
+              Si DOOMER pose le diagnostic, BLOOMER propose une direction :
+              <span class="em">réapprendre à aimer</span> ce qui prend du temps.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
+  <BloomerFooter />
 </template>
+
+<style scoped>
+/* mots en "gras" stylé */
+.em {
+  font-weight: 800;
+  color: rgba(39, 39, 42, 0.95);
+  text-shadow: 0 0 18px rgba(180, 83, 9, 0.12);
+}
+</style>

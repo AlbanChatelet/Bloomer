@@ -1,7 +1,8 @@
 <script setup lang="ts">
 const config = useRuntimeConfig();
 const api = config.public.apiBase;
-
+import { B } from "vue-router/dist/router-CWoNjPRp.mjs";
+import BloomerFooter from "~/components/BloomerFooter.vue"
 type ShowEpisode = {
   id: string;
   show: string;
@@ -114,7 +115,7 @@ const hasActiveFilters = computed(
 </script>
 
 <template>
-  <div class="min-h-screen bg-gradient-to-b from-amber-50 to-orange-50 text-zinc-900">
+  <div class="min-h-screen bg-[#E9DCC6] text-zinc-900">
     <BloomerHeader />
 
     <div class="pt-20 sm:pt-24">
@@ -463,4 +464,5 @@ const hasActiveFilters = computed(
       </footer>
     </div>
   </div>
+  <BloomerFooter />
 </template>

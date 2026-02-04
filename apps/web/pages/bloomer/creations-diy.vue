@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref, computed, watch, nextTick } from "vue";
 import BloomerHeader from "~/components/BloomerHeader.vue";
-
+import BloomerFooter from "~/components/BloomerFooter.vue"
 const config = useRuntimeConfig();
 const api = config.public.apiBase;
 
@@ -218,7 +218,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-gradient-to-b from-amber-50 via-zinc-50 to-white text-zinc-900">
+  <div class="min-h-screen bg-[#E9DCC6] via-zinc-50 to-white text-zinc-900">
     <BloomerHeader />
 
     <!-- spacer header fixed -->
@@ -529,6 +529,7 @@ onMounted(async () => {
       </div>
     </Teleport>
   </div>
+  <BloomerFooter />
 </template>
 
 <style scoped>

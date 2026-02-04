@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import BloomerHeader from "~/components/BloomerHeader.vue";
-
+import BloomerFooter from "~/components/BloomerFooter.vue"
 const config = useRuntimeConfig();
 const api = config.public.apiBase;
 
@@ -170,7 +170,7 @@ const safeCover = (a: MusicAlbum) =>
 </script>
 
 <template>
-  <div class="min-h-screen bg-gradient-to-b from-amber-50 to-orange-50 text-zinc-900">
+  <div class="min-h-screen bg-[#E9DCC6] text-zinc-900">
     <BloomerHeader />
 
     <div class="pt-20 sm:pt-24">
@@ -351,4 +351,5 @@ const safeCover = (a: MusicAlbum) =>
       </main>
     </div>
   </div>
+  <BloomerFooter />
 </template>
