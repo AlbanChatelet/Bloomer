@@ -11,7 +11,7 @@ type BloomerCard = {
 const cards: BloomerCard[] = [
   {
     title: "Créations DIY",
-    description: "Custom, peinture, broderie, objets faits main. Moodboard + focus modal.",
+    description: "Custom, peinture, broderie, objets faits main.",
     to: "/bloomer/creations-diy",
     image: "/images/diy/cover.jpg",
   },
