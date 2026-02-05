@@ -9,18 +9,27 @@ import HomeHeader from "~/components/HomeHeader.vue"
 
     <!-- CONTENU -->
     <div class="flex h-full w-full flex-col-reverse md:flex-row">
+      
       <!-- DOOMER -->
       <NuxtLink
         to="/doomer"
-        class="group relative flex h-1/2 w-full items-center justify-center transition-all duration-700 ease-in-out md:h-full md:w-1/2 md:hover:w-[60%]"
+        class="group relative flex h-1/2 w-full
+               items-end pb-16
+               md:h-full md:w-1/2 md:items-center md:pb-0
+               justify-center
+               transition-all duration-700 ease-in-out
+               md:hover:w-[60%]"
       >
+        <!-- BG -->
         <div
           class="absolute inset-0 bg-cover bg-center transition-all duration-700"
           style="background-image: url('/images/home/doomer.png')"
         ></div>
 
+        <!-- Overlay -->
         <div class="absolute inset-0 bg-black/60 transition-all duration-700 group-hover:bg-black/40"></div>
 
+        <!-- Texte -->
         <div class="relative z-10 text-center text-white px-6">
           <h1 class="text-4xl font-extrabold tracking-tight md:text-5xl">
             DOOMER
@@ -41,15 +50,23 @@ import HomeHeader from "~/components/HomeHeader.vue"
       <!-- BLOOMER -->
       <NuxtLink
         to="/bloomer"
-        class="group relative flex h-1/2 w-full items-center justify-center transition-all duration-700 ease-in-out md:h-full md:w-1/2 md:hover:w-[60%]"
+        class="group relative flex h-1/2 w-full
+               items-end pb-16
+               md:h-full md:w-1/2 md:items-center md:pb-0
+               justify-center
+               transition-all duration-700 ease-in-out
+               md:hover:w-[60%]"
       >
+        <!-- BG -->
         <div
           class="absolute inset-0 bg-cover bg-center transition-all duration-700"
           style="background-image: url('/images/home/bloomer.jpg')"
         ></div>
 
+        <!-- Overlay -->
         <div class="absolute inset-0 bg-amber-900/40 transition-all duration-700 group-hover:bg-amber-900/20"></div>
 
+        <!-- Texte -->
         <div class="relative z-10 text-center text-white px-6">
           <h1 class="text-4xl font-extrabold tracking-tight md:text-5xl">
             BLOOMER
@@ -66,6 +83,7 @@ import HomeHeader from "~/components/HomeHeader.vue"
           </p>
         </div>
       </NuxtLink>
+
     </div>
   </div>
 </template>
@@ -93,7 +111,7 @@ import HomeHeader from "~/components/HomeHeader.vue"
   transition: transform 0.5s ease;
 }
 
-/* couleurs soulignement */
+/* couleurs */
 .underline-doomer::after {
   background: linear-gradient(
     to right,
@@ -110,7 +128,7 @@ import HomeHeader from "~/components/HomeHeader.vue"
   );
 }
 
-/* activation hover desktop */
+/* hover desktop */
 @media (min-width: 768px) {
   .group:hover .underline-doomer::after,
   .group:hover .underline-bloomer::after {
@@ -118,7 +136,7 @@ import HomeHeader from "~/components/HomeHeader.vue"
   }
 }
 
-/* OMBRES TEXTE (lisibilité) */
+/* ombres texte */
 .shadow-doomer {
   text-shadow:
     0 2px 8px rgba(0, 0, 0, 0.85),
